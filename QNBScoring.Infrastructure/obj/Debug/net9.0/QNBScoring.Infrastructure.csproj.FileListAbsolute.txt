@@ -1,0 +1,15 @@
+D:\QNBScoring\src\QNBScoring.Infrastructure\bin\Debug\net9.0\QNBScoring.Infrastructure.deps.json
+D:\QNBScoring\src\QNBScoring.Infrastructure\bin\Debug\net9.0\QNBScoring.Infrastructure.dll
+D:\QNBScoring\src\QNBScoring.Infrastructure\bin\Debug\net9.0\QNBScoring.Infrastructure.pdb
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScoring.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScoring.Infrastructure.AssemblyInfoInputs.cache
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScoring.Infrastructure.AssemblyInfo.cs
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScoring.Infrastructure.csproj.CoreCompileInputs.cache
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScoring.Infrastructure.dll
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\refint\QNBScoring.Infrastructure.dll
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScoring.Infrastructure.pdb
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\ref\QNBScoring.Infrastructure.dll
+D:\QNBScoring\src\QNBScoring.Infrastructure\bin\Debug\net9.0\QNBScoring.Core.dll
+D:\QNBScoring\src\QNBScoring.Infrastructure\bin\Debug\net9.0\QNBScoring.Core.pdb
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScoring.Infrastructure.csproj.AssemblyReference.cache
+D:\QNBScoring\src\QNBScoring.Infrastructure\obj\Debug\net9.0\QNBScori.2F187224.Up2Date

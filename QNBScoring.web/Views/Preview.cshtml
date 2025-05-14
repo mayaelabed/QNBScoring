@@ -1,0 +1,25 @@
+﻿<table class="table">
+    <thead>
+        <tr>
+            <th>ClientId</th>
+            <th>Solde</th>
+            <th>Date Ouverture</th>
+            <th>Incidents</th>
+            <th>Score</th>
+            <th>Décision</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (IEnumerable<QNBScoring.Core.DTOs.ClientRequestDto>)ViewData["Requests"])
+        {
+            <tr>
+                <td>@item.ClientId</td>
+                <td>@item.Solde</td>
+                <td>@item.AccountOpened.ToShortDateString()</td>
+                <td>@item.IncidentCount</td>
+                <td>@item.Score</td>
+                <td><strong>@item.Decision</strong></td>
+            </tr>
+        }
+    </tbody>
+</table>

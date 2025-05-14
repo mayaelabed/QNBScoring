@@ -1,0 +1,11 @@
+D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.deps.json
+D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.dll
+D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.pdb
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.AssemblyInfoInputs.cache
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.AssemblyInfo.cs
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.csproj.CoreCompileInputs.cache
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.dll
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\refint\QNBScoring.Core.dll
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.pdb
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\ref\QNBScoring.Core.dll
