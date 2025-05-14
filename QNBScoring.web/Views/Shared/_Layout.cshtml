@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/QNBScoring.web.styles.css" asp-append-version="true" />
+<<<<<<< HEAD
+=======
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+>>>>>>> 42f6f51 (additionnal fuctionnality)
 </head>
 <body>
     <header>
@@ -26,6 +30,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+<<<<<<< HEAD
+=======
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Scoring" asp-action="Index">Importer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Scoring" asp-action="Statistics">Statistiques</a>
+                            </li>
+                        
+                        <li class="nav-item">
+                            @if (User?.Identity?.IsAuthenticated == true)
+                            {
+                                <div class="text-end text-muted small">
+                                    Connecté en tant que : <strong>@User.Identity.Name</strong>
+                                </div>
+                            }
+
+                            </li>
+
+>>>>>>> 42f6f51 (additionnal fuctionnality)
                     </ul>
 
                 </div>
@@ -33,12 +58,16 @@
             
         </nav>
     </header>
+<<<<<<< HEAD
     <div>
         @if (User.Identity?.IsAuthenticated == true)
         {
             <p class="text-end">Connecté en tant que : @User.Identity.Name</p>
         }
     </div>
+=======
+    
+>>>>>>> 42f6f51 (additionnal fuctionnality)
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

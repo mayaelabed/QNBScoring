@@ -1,0 +1,40 @@
+﻿@model List<QNBScoring.Core.DTOs.ClientRequestDto>
+
+@{
+    ViewData["Title"] = "Résultats du scoring";
+}
+
+<h2>Résultats du Scoring</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Score</th>
+            <th>Décision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <form asp-action="GenerateReport" asp-controller="Scoring" method="post">
+            @foreach (var item in Model)
+            {
+                <input type="hidden" name="results.Index" value="@item.ClientName" />
+                <input type="hidden" name="results[@Model.IndexOf(item)].ClientName" value="@item.ClientName" />
+                <input type="hidden" name="results[@Model.IndexOf(item)].Score" value="@item.Score" />
+                <input type="hidden" name="results[@Model.IndexOf(item)].Decision" value="@item.Decision" />
+            }
+
+        <button type="submit" class="btn btn-primary mt-3">Générer le rapport PDF</button>
+    </form>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ClientName</td>
+                <td>@item.Score</td>
+                <td>@item.Decision</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Index", "Scoring")" class="btn btn-secondary">Nouvel Import</a>

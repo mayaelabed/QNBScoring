@@ -1,11 +1,26 @@
 D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.deps.json
+<<<<<<< HEAD
 D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.dll
 D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.pdb
+=======
+D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.runtimeconfig.json
+D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.dll
+D:\QNBScoring\src\QNBScoring.Core\bin\Debug\net9.0\QNBScoring.Core.pdb
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.csproj.AssemblyReference.cache
+>>>>>>> 42f6f51 (additionnal fuctionnality)
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.GeneratedMSBuildEditorConfig.editorconfig
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.AssemblyInfoInputs.cache
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.AssemblyInfo.cs
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.csproj.CoreCompileInputs.cache
+<<<<<<< HEAD
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.dll
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\refint\QNBScoring.Core.dll
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.pdb
+=======
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.sourcelink.json
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.dll
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\refint\QNBScoring.Core.dll
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.pdb
+D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\QNBScoring.Core.genruntimeconfig.cache
+>>>>>>> 42f6f51 (additionnal fuctionnality)
 D:\QNBScoring\src\QNBScoring.Core\obj\Debug\net9.0\ref\QNBScoring.Core.dll

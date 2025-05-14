@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
@@ -10,4 +11,53 @@
     }
 
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+=======
+﻿
+@using System.Security.Claims
+@{
+    ViewData["Title"] = "QNB Scoring - Accueil";
+    var username = User.Identity?.IsAuthenticated == true ? User.Identity.Name : "Maya";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <!-- Logo QNB -->
+        <img src="~/images/qnb-logo.png" alt="QNB Logo" class="mb-4" style="max-height: 100px;" />
+
+        <h1 class="display-4 text-primary">Bienvenue sur la plateforme QNB Scoring</h1>
+        <p class="lead">Bonjour, <strong>@username</strong> 👋</p>
+        <p>Cette application vous permet d’analyser et de scorer les demandes de chéquier.</p>
+
+        <hr class="my-4" />
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-3">
+                <a class="btn btn-outline-primary btn-lg w-100 mb-3" asp-controller="Scoring" asp-action="Index">
+                    📤 Importer un fichier
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-outline-success btn-lg w-100 mb-3" asp-controller="Scoring" asp-action="Statistics">
+                    📊 Voir les statistiques
+                </a>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h4>📌 À propos</h4>
+        <p>
+            Cette plateforme a été conçue pour QNB dans le cadre du traitement et de l’analyse automatique des demandes de chéquiers.
+            Elle inclut des modules d’importation, scoring, génération de rapports PDF et visualisation statistique.
+        </p>
+
+        <h5>📬 Contact technique</h5>
+        <ul>
+            <li><strong>Développeur :</strong> Équipe IT QNB</li>
+            <li><strong>Email :</strong> support@qnb.tn</li>
+            <li><strong>Téléphone :</strong> +216 71 000 000</li>
+        </ul>
+    </div>
+>>>>>>> 42f6f51 (additionnal fuctionnality)
 </div>

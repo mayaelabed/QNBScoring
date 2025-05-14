@@ -49,6 +49,25 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+<<<<<<< HEAD
+=======
+          "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.104.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.5, )"
+            }
+          },
+>>>>>>> 42f6f51 (additionnal fuctionnality)
           "imports": [
             "net461",
             "net462",
@@ -119,10 +138,18 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+<<<<<<< HEAD
+=======
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.104.2, )"
+            },
+>>>>>>> 42f6f51 (additionnal fuctionnality)
             "CsvHelper": {
               "target": "Package",
               "version": "[33.0.1, )"
             },
+<<<<<<< HEAD
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -134,6 +161,29 @@
             "Novell.Directory.Ldap.NETStandard": {
               "target": "Package",
               "version": "[3.0.2, )"
+=======
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Novell.Directory.Ldap.NETStandard": {
+              "target": "Package",
+              "version": "[4.0.0, )"
+>>>>>>> 42f6f51 (additionnal fuctionnality)
             }
           },
           "imports": [
@@ -209,6 +259,13 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+<<<<<<< HEAD
+=======
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.104.2, )"
+            },
+>>>>>>> 42f6f51 (additionnal fuctionnality)
             "CsvHelper": {
               "target": "Package",
               "version": "[33.0.1, )"
@@ -219,13 +276,21 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
+<<<<<<< HEAD
               "version": "[9.0.4, )"
+=======
+              "version": "[9.0.5, )"
+>>>>>>> 42f6f51 (additionnal fuctionnality)
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
+<<<<<<< HEAD
               "version": "[9.0.4, )"
+=======
+              "version": "[9.0.5, )"
+>>>>>>> 42f6f51 (additionnal fuctionnality)
             },
             "Novell.Directory.Ldap.NETStandard": {
               "target": "Package",

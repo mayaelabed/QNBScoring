@@ -1,3 +1,7 @@
 ﻿<Project>
+<<<<<<< HEAD
   <Import Project="..\buildMultiTargeting\QNBScoring.Web.props" />
+=======
+  <Import Project="..\buildMultiTargeting\QNBScoring.web.props" />
+>>>>>>> 42f6f51 (additionnal fuctionnality)
 </Project>

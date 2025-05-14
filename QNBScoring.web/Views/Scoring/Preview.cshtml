@@ -1,0 +1,65 @@
+﻿@model List<QNBScoring.Core.DTOs.ClientRequestDto>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Prévisualisation du Scoring";
+}
+<head>
+    <link href="~/css/preview.css" rel="stylesheet" />
+</head>
+
+<div class="container mt-4">
+    <h2 class="mb-4">📊 Prévisualisation du Scoring des Clients</h2>
+
+    @if (Model?.Count > 0)
+    {
+            <form asp-action="GenerateReport" asp-controller="Scoring" method="post">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>🧾 Identifiant</th>
+                            <th>👤 Nom Client</th>
+                            <th>📆 Date Ouverture</th>
+                            <th>⚠️ Incidents</th>
+                            <th>💰 Solde</th>
+                            <th>📈 Score</th>
+                            <th>✅ Décision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                                <tr>
+                                    <td>@Model[i].ClientId</td>
+                                    <td>@Model[i].ClientName</td>
+                                    <td>@Model[i].AccountOpened.ToShortDateString()</td>
+                                    <td>@Model[i].IncidentCount</td>
+                                    <td>@Model[i].Solde.ToString("C")</td>
+                                    <td>@Model[i].Score</td>
+                                    <td>@Model[i].Decision</td>
+                                </tr>
+
+                                <!-- Hidden inputs pour sérialiser les données et les envoyer -->
+                                <input type="hidden" name="results[@i].ClientId" value="@Model[i].ClientId" />
+                                <input type="hidden" name="results[@i].ClientName" value="@Model[i].ClientName" />
+                                <input type="hidden" name="results[@i].AccountOpened" value="@Model[i].AccountOpened.ToString("yyyy-MM-dd")" />
+                                <input type="hidden" name="results[@i].IncidentCount" value="@Model[i].IncidentCount" />
+                                <input type="hidden" name="results[@i].Solde" value="@Model[i].Solde" />
+                                <input type="hidden" name="results[@i].Score" value="@Model[i].Score" />
+                                <input type="hidden" name="results[@i].Decision" value="@Model[i].Decision" />
+                    }
+                    </tbody>
+                </table>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">
+                        📥 Générer le rapport PDF
+                    </button>
+                </div>
+            </form>
+    }
+    else
+    {
+            <div class="alert alert-warning">Aucune donnée à afficher.</div>
+    }
+</div>

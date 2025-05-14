@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Importation des demandes";
+}
+
+<h2>Importation de fichiers de demandes</h2>
+
+<form asp-action="Upload" asp-controller="Scoring" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="file" class="form-label">Sélectionner un fichier Excel/CSV :</label>
+        <input type="file" name="file" id="file" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Prévisualiser</button>
+</form>

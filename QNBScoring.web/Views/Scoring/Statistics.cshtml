@@ -1,0 +1,23 @@
+﻿@model List<QNBScoring.Core.DTOs.ClientScoreResultDto>
+
+<h2>Statistiques de scoring</h2>
+
+<canvas id="scoreChart" width="400" height="200"></canvas>
+
+<script>
+    const labels = @Html.Raw(Json.Serialize(Model.Select(x => x.ClientId)))
+    const data = @Html.Raw(Json.Serialize(Model.Select(x => x.Score)))
+
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Scores des clients',
+                data: data,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        }
+    });
+</script>

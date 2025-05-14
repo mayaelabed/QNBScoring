@@ -1,8 +1,17 @@
 {
   "Files": [
     {
+<<<<<<< HEAD
       "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\QNBScoring.Web.bundle.scp.css",
       "PackagePath": "staticwebassets\\QNBScoring.Web.hwaw5d1l2v.bundle.scp.css"
+=======
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\QNBScoring.web.bundle.scp.css",
+      "PackagePath": "staticwebassets\\QNBScoring.web.m7kcfmgu2d.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\css\\preview.css",
+      "PackagePath": "staticwebassets\\css\\preview.css"
+>>>>>>> 42f6f51 (additionnal fuctionnality)
     },
     {
       "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\css\\site.css",
@@ -13,6 +22,13 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+<<<<<<< HEAD
+=======
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\images\\qnb-logo.png",
+      "PackagePath": "staticwebassets\\images\\qnb-logo.png"
+    },
+    {
+>>>>>>> 42f6f51 (additionnal fuctionnality)
       "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
@@ -257,6 +273,7 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.map"
     },
     {
+<<<<<<< HEAD
       "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.QNBScoring.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
@@ -275,6 +292,46 @@
     {
       "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.QNBScoring.Web.props",
       "PackagePath": "buildTransitive\\QNBScoring.Web.props"
+=======
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\reports\\report_20250514105654.pdf",
+      "PackagePath": "staticwebassets\\reports\\report_20250514105654.pdf"
+    },
+    {
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\reports\\report_20250514105758.pdf",
+      "PackagePath": "staticwebassets\\reports\\report_20250514105758.pdf"
+    },
+    {
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\uploads\\class233.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\class233.xlsx"
+    },
+    {
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\uploads\\clients.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\clients.xlsx"
+    },
+    {
+      "Id": "D:\\QNBScoring\\src\\QNBScoring.Web\\wwwroot\\uploads\\report_20250514105654.pdf",
+      "PackagePath": "staticwebassets\\uploads\\report_20250514105654.pdf"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.QNBScoring.web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.QNBScoring.web.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.QNBScoring.web.props",
+      "PackagePath": "build\\QNBScoring.web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.QNBScoring.web.props",
+      "PackagePath": "buildMultiTargeting\\QNBScoring.web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.QNBScoring.web.props",
+      "PackagePath": "buildTransitive\\QNBScoring.web.props"
+>>>>>>> 42f6f51 (additionnal fuctionnality)
     }
   ],
   "ElementsToRemove": []

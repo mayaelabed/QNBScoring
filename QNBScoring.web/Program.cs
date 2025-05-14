@@ -33,6 +33,7 @@ app.UseAuthorization();
 app.MapDefaultControllerRoute();
 app.Run();*/
 
+<<<<<<< HEAD
 var builder = WebApplication.CreateBuilder(args);
 
 // Authentification Windows
@@ -57,3 +58,35 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+=======
+using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.EntityFrameworkCore;
+using QNBScoring.Core.Interfaces;
+using QNBScoring.Infrastructure.Services;
+using QNBScoring.Infrastructure;
+using System;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Enregistrement DI
+builder.Services.AddScoped<IExcelImportService, ExcelImportService>();
+builder.Services.AddScoped<IScoringService, ScoringService>();
+builder.Services.AddScoped<IPdfService, PdfService>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Auth + MVC
+builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+    .AddNegotiate(); // Pour l'authentification Windows (Kerberos/NTLM)
+
+builder.Services.AddAuthorization();
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapDefaultControllerRoute();
+app.Run();
+
+>>>>>>> 42f6f51 (additionnal fuctionnality)
