@@ -7,8 +7,12 @@
 	  <WindowsAuthentication>true</WindowsAuthentication>
 	  <AnonymousAuthentication>false</AnonymousAuthentication>
   </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'CI'">
+		<DefineConstants>$(DefineConstants);DISABLE_LDAP</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="EPPlus" Version="8.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="7.0.0" />

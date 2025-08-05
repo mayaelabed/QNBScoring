@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
@@ -17,13 +17,13 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0.x'  # ou la version que tu utilises
+          dotnet-version: '9.0.0'  
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+      - name: Build solution with DISABLE_LDAP symbol
+        run: dotnet build --no-restore --configuration CI
 
       - name: Run unit tests
-        run: dotnet test --no-build --configuration Release
+        run: dotnet test --no-build --configuration CI --logger trx

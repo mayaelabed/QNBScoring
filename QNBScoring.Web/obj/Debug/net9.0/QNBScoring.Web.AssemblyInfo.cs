@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QNBScoring.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+76df1e8eecf336c0c2c92a0b6c8b088350c80b07")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d997aaeb557c8451ec7461988426ab82baad485")]
 [assembly: System.Reflection.AssemblyProductAttribute("QNBScoring.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QNBScoring.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
