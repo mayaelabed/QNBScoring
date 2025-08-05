@@ -1,0 +1,643 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model IEnumerable<QNBScoring.Core.Entities.DemandeChequier>
+@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "QNB Scoring - Accueil";
+}
+
+<!-- Optimized CSS imports -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+    :root {
+        --qnb-primary: #2a5a8a;
+        --qnb-secondary: #6c757d;
+        --qnb-success: #28a745;
+        --qnb-danger: #dc3545;
+        --qnb-warning: #fd7e14;
+        --qnb-info: #17a2b8;
+    }
+
+    .avatar {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: 600;
+        color: white;
+    }
+
+    .score-badge {
+        min-width: 50px;
+        text-align: center;
+    }
+
+    .sortable {
+        cursor: pointer;
+        position: relative;
+    }
+
+        .sortable:hover {
+            background-color: rgba(0,0,0,0.025);
+        }
+
+        .sortable::after {
+            content: "⇅";
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+            opacity: 0.5;
+        }
+
+        .sortable.asc::after {
+            content: "↑";
+            opacity: 1;
+        }
+
+        .sortable.desc::after {
+            content: "↓";
+            opacity: 1;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .empty-state-icon {
+        font-size: 3rem;
+        color: var(--qnb-secondary);
+        margin-bottom: 1rem;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .progress-thin {
+        height: 4px;
+    }
+
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .spinner {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+    }
+</style>
+
+<!-- Modern header with breadcrumbs -->
+<div class="container py-3">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Tableau de bord</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+            <img src="~/images/qnb-logo.jpeg" alt="QNB Logo" class="me-3" style="height: 50px;" loading="lazy" />
+            <h1 class="h4 mb-0 text-primary fw-bold">Plateforme QNB Scoring</h1>
+        </div>
+        <div>
+            <a class="btn btn-primary" asp-controller="Import" asp-action="Index">
+                <i class="bi bi-upload me-2"></i>Importer un fichier
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics cards with better visual hierarchy -->
+<div class="container mb-4">
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card shadow-sm border-0 h-100" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-muted mb-2 small">Total demandes</h6>
+                            <h3 class="mb-0">@ViewBag.TotalDemandes</h3>
+                        </div>
+                        <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                            <i class="bi bi-journal-text fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-success small"><i class="bi bi-arrow-up"></i> 12% vs mois dernier</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card shadow-sm border-0 h-100" data-aos="fade-up" data-aos-delay="150">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-muted mb-2 small">Demandes scorées</h6>
+                            <h3 class="mb-0">@ViewBag.DemandesScorées</h3>
+                            <small class="text-muted">@ViewBag.NonScorées en attente</small>
+                        </div>
+                        <div class="icon-shape bg-success bg-opacity-10 text-success rounded-circle p-3">
+                            <i class="bi bi-check2-circle fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="progress progress-thin mt-3">
+                        <div class="progress-bar bg-success" role="progressbar"
+                             style="width: @((ViewBag.DemandesScorées * 100) / Math.Max(1, ViewBag.TotalDemandes))%"
+                             aria-valuenow="@((ViewBag.DemandesScorées * 100) / Math.Max(1, ViewBag.TotalDemandes))"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card shadow-sm border-0 h-100" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-muted mb-2 small">Taux acceptation</h6>
+                            <h3 class="mb-0">@ViewBag.TauxAcceptation%</h3>
+                        </div>
+                        <div class="icon-shape bg-info bg-opacity-10 text-info rounded-circle p-3">
+                            <i class="bi bi-bar-chart-line fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span>Accepté: @ViewBag.Acceptées</span>
+                            <span>Refusé: @ViewBag.Refusées</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card stat-card shadow-sm border-0 h-100" data-aos="fade-up" data-aos-delay="250">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-muted mb-2 small">Dernière analyse</h6>
+                            <h3 class="mb-0">@ViewBag.DernièreAnalyse</h3>
+                        </div>
+                        <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded-circle p-3">
+                            <i class="bi bi-clock-history fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a href="#" class="small text-decoration-none">Voir historique <i class="bi bi-arrow-right-short"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced data table with filters -->
+<div class="container">
+    <div class="card shadow-sm border-0 overflow-hidden">
+        <div class="card-header bg-white border-0 pt-3 pb-2">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <h5 class="mb-2 mb-md-0 text-primary fw-semibold">
+                    <i class="bi bi-table me-2"></i> Liste des demandes
+                </h5>
+
+                <div class="d-flex flex-column flex-md-row gap-2">
+                    <div class="input-group input-group-sm" style="width: 200px;">
+                        <span class="input-group-text bg-transparent"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control border-start-0" placeholder="Rechercher..."
+                               id="searchInput" value="@ViewBag.Search" aria-label="Rechercher des demandes">
+                    </div>
+
+                    <select class="form-select form-select-sm" style="width: 180px;" id="statusFilter">
+                        <option value="">Tous les statuts</option>
+                        <option value="scored">Scorées</option>
+                        <option value="pending">En attente</option>
+                        <option value="accepted">Acceptées</option>
+                        <option value="rejected">Refusées</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="card-body">
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="bi bi-journal-x"></i>
+                    </div>
+                    <h3>Aucune demande trouvée</h3>
+                    <p class="text-muted">Commencez par importer un fichier Excel pour analyser les demandes.</p>
+                    <a class="btn btn-primary mt-3" asp-controller="Import" asp-action="Index">
+                        <i class="bi bi-upload me-2"></i>Importer un fichier
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card-body p-0 position-relative">
+                <div class="loading-overlay d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="demandesTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col" class="sortable" data-sort="nom">Client</th>
+                                <th scope="col" class="sortable" data-sort="cin">CIN</th>
+                                <th scope="col" class="sortable" data-sort="date">Date</th>
+                                <th scope="col" class="sortable" data-sort="score">Score</th>
+                                <th scope="col" class="sortable" data-sort="status">Statut</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var demande in Model)
+                            {
+                                var statusClass = "";
+                                var statusText = "";
+
+                                if (demande.Score == null)
+                                {
+                                    statusClass = "bg-secondary";
+                                    statusText = "En attente";
+                                }
+                                else if (demande.Score.Decision == "Accepté")
+                                {
+                                    statusClass = "bg-success";
+                                    statusText = "Accepté";
+                                }
+                                else
+                                {
+                                    statusClass = "bg-danger";
+                                    statusText = "Refusé";
+                                }
+
+                                <tr data-status="@(demande.Score == null ? "pending" : (demande.Score.Decision == "Accepté" ? "accepted" : "rejected"))">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar me-3" style="background-color: @($"#{demande.Client.Nom.GetHashCode():X6}".Substring(0, 7))">
+                                                @demande.Client.Nom[0]@demande.Client.Prenom[0]
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">@demande.Client.Nom @demande.Client.Prenom</h6>
+                                                <small class="text-muted">@demande.Client.Email</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@demande.Client.CIN</td>
+                                    <td>
+                                        <div>@demande.DateDemande.ToString("dd MMM yyyy")</div>
+                                        <small class="text-muted">@demande.DateDemande.ToString("HH:mm")</small>
+                                    </td>
+                                    <td>
+                                        @if (demande.Score != null)
+                                        {
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="progress progress-thin flex-grow-1">
+                                                    <div class="progress-bar @(demande.Score.Valeur >= 70 ? "bg-success" : demande.Score.Valeur >= 40 ? "bg-warning" : "bg-danger")"
+                                                         role="progressbar"
+                                                         style="width: @demande.Score.Valeur%"
+                                                         aria-valuenow="@demande.Score.Valeur"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100"></div>
+                                                </div>
+                                                <span class="badge score-badge @(demande.Score.Valeur >= 70 ? "bg-success" : demande.Score.Valeur >= 40 ? "bg-warning" : "bg-danger")">
+                                                    @demande.Score.Valeur
+                                                </span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge @statusClass status-badge">@statusText</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a class="btn btn-sm btn-outline-primary"
+                                               asp-controller="Scoring"
+                                               asp-action="Analyser"
+                                               asp-route-demandeId="@demande.Id"
+                                               data-bs-toggle="tooltip"
+                                               data-bs-placement="top"
+                                               title="Analyser">
+                                                <i class="bi bi-search"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-secondary details-btn"
+                                                    data-demande-id="@demande.Id"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Détails">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Enhanced pagination -->
+                <div class="card-footer bg-white border-0 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                    <div class="text-muted mb-2 mb-md-0">
+                        Affichage de <span class="fw-bold">1</span> à <span class="fw-bold">@Math.Min(10, ViewBag.TotalDemandes)</span> sur <span class="fw-bold">@ViewBag.TotalDemandes</span> demandes
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Précédent</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            @if (ViewBag.TotalDemandes > 10)
+                            {
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            }
+                            @if (ViewBag.TotalDemandes > 20)
+                            {
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            }
+                            @if (ViewBag.TotalDemandes > 10)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Suivant</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Détails de la demande</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBodyContent">
+                <!-- Content will be loaded via AJAX -->
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Imprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optimized JS imports -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize components when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize animations
+        AOS.init({
+            duration: 600,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Initialize details modal
+        const detailsModal = new bootstrap.Modal(document.getElementById('detailsModal'));
+        const detailsButtons = document.querySelectorAll('.details-btn');
+
+        detailsButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const demandeId = this.getAttribute('data-demande-id');
+                loadDemandeDetails(demandeId);
+                detailsModal.show();
+            });
+        });
+
+        // Table sorting functionality
+        document.querySelectorAll('.sortable').forEach(header => {
+            header.addEventListener('click', () => {
+                const table = header.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const index = Array.from(header.parentNode.children).indexOf(header);
+                const isAsc = header.classList.contains('asc');
+
+                // Reset all headers
+                header.parentNode.querySelectorAll('.sortable').forEach(h => {
+                    h.classList.remove('asc', 'desc');
+                });
+
+                // Set new direction
+                header.classList.toggle('asc', !isAsc);
+                header.classList.toggle('desc', isAsc);
+
+                // Sort rows
+                rows.sort((a, b) => {
+                    const aValue = a.children[index].textContent.trim();
+                    const bValue = b.children[index].textContent.trim();
+
+                    // Numeric comparison
+                    if (!isNaN(aValue) {
+                        return (parseFloat(aValue) - parseFloat(bValue)) * (isAsc ? -1 : 1);
+                    }
+
+                    // Date comparison
+                    const aDate = new Date(aValue);
+                    const bDate = new Date(bValue);
+                    if (!isNaN(aDate) {
+                        return (aDate - bDate) * (isAsc ? -1 : 1);
+                    }
+
+                    // String comparison
+                    return aValue.localeCompare(bValue) * (isAsc ? -1 : 1);
+                });
+
+                // Re-insert rows
+                rows.forEach(row => tbody.appendChild(row));
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce(() => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const rows = document.querySelectorAll('#demandesTable tbody tr');
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            }, 300));
+        }
+
+        // Status filter functionality
+        const statusFilter = document.getElementById('statusFilter');
+        if (statusFilter) {
+            statusFilter.addEventListener('change', function() {
+                const status = this.value;
+                const rows = document.querySelectorAll('#demandesTable tbody tr');
+
+                rows.forEach(row => {
+                    if (!status || row.getAttribute('data-status') === status) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this, args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+
+        // Load demande details via AJAX
+        function loadDemandeDetails(demandeId) {
+            const modalBody = document.getElementById('modalBodyContent');
+            modalBody.innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                </div>
+            `;
+
+            // In a real application, you would fetch this from your API
+            // This is a mock implementation
+            setTimeout(() => {
+                modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Informations client</h6>
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Nom complet:</span>
+                                    <span class="fw-semibold">Client ${demandeId}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>CIN:</span>
+                                    <span class="fw-semibold">EE${demandeId}123</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Email:</span>
+                                    <span class="fw-semibold">client${demandeId}.com</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Téléphone:</span>
+                                    <span class="fw-semibold">06${demandeId}45678</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Détails de la demande</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Date demande:</span>
+                                    <span class="fw-semibold">${new Date().toLocaleDateString()}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Score:</span>
+                                    <span class="badge bg-success">75</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Statut:</span>
+                                    <span class="badge bg-success">Accepté</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Décision:</span>
+                                    <span class="fw-semibold">Approuvée</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="fw-bold">Historique</h6>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-content">
+                                    <small class="text-muted">Aujourd'hui, 10:30</small>
+                                    <p class="mb-0">Demande approuvée par le système</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-content">
+                                    <small class="text-muted">Aujourd'hui, 10:15</small>
+                                    <p class="mb-0">Analyse complétée avec score de 75</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-content">
+                                    <small class="text-muted">Aujourd'hui, 10:00</small>
+                                    <p class="mb-0">Demande reçue</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }, 800);
+        }
+    });
+</script>
+@{
+    var exemple = "Texte d'exemple"; // Définition de la variable
+}

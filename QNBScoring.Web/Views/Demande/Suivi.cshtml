@@ -1,0 +1,37 @@
+﻿@model QNBScoring.Core.Entities.DemandeChequier
+
+@{
+    ViewData["Title"] = "Suivi de la demande";
+}
+
+<h2 class="text-primary">📊 Suivi de la demande de chéquier</h2>
+
+<p><strong>Type de chéquier :</strong> @Model.TypeChequier</p>
+<p><strong>Nombre :</strong> @Model.NombreChequiers</p>
+<p><strong>Motif :</strong> @Model.Motif</p>
+<p><strong>Mode de livraison :</strong> @Model.ModeLivraison</p>
+
+<div class="progress my-4" style="height: 30px;">
+    @{
+        int progress = Model.EtatDemande switch
+        {
+            QNBScoring.Core.Entities.EtatDemande.PasEncoreTraitee => 0,
+            QNBScoring.Core.Entities.EtatDemande.EnCoursDeTraitement => 50,
+            QNBScoring.Core.Entities.EtatDemande.Traitee => 100,
+            _ => 0
+        };
+        string label = Model.EtatDemande switch
+        {
+            QNBScoring.Core.Entities.EtatDemande.PasEncoreTraitee => "⏳ Pas encore traitée",
+            QNBScoring.Core.Entities.EtatDemande.EnCoursDeTraitement => "🔄 En cours de traitement",
+            QNBScoring.Core.Entities.EtatDemande.Traitee => "✅ Demande traitée",
+            _ => ""
+        };
+    }
+
+    <div class="progress-bar bg-info text-dark fw-bold" role="progressbar" style="width: @progress%;" aria-valuenow="@progress" aria-valuemin="0" aria-valuemax="100">
+        @label
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>

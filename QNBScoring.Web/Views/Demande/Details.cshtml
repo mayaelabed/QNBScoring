@@ -1,0 +1,72 @@
+﻿@model QNBScoring.Core.Entities.DemandeChequier
+
+@{
+    ViewData["Title"] = "Détails de la Demande";
+    var client = Model.Client;
+}
+
+<div class="container py-4">
+    <h2 class="text-primary mb-4">📋 Détails de la Demande de Chéquier</h2>
+
+    <div class="row g-4">
+        <!-- Infos client -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-primary text-white">🧍 Client</div>
+                <div class="card-body">
+                    <p><strong>Nom :</strong> @client.Nom @client.Prenom</p>
+                    <p><strong>AccountNo :</strong> @client.AccountNo</p>
+                    <p><strong>CIN :</strong> @client.CIN</p>
+                    <p><strong>Profession :</strong> @client.Profession</p>
+                    <p><strong>SED :</strong> @client.ClassificationSED</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infos demande -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-success text-white">📝 Demande</div>
+                <div class="card-body">
+                    <p><strong>Date :</strong> @Model.DateDemande.ToShortDateString()</p>
+                    <p><strong>Type :</strong> @Model.TypeChequier</p>
+                    <p><strong>Nombre :</strong> @Model.NombreChequiers</p>
+                    <p><strong>Motif :</strong> @Model.Motif</p>
+                    <p><strong>Livraison :</strong> @Model.ModeLivraison</p>
+                    @if (!string.IsNullOrEmpty(Model.AdresseLivraison))
+                    {
+                        <p><strong>Adresse :</strong> @Model.AdresseLivraison</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact et fichiers -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <p><strong>Téléphone :</strong> @Model.Telephone</p>
+            <p><strong>Email :</strong> @Model.Email</p>
+            <p><strong>Certifié :</strong> @(Model.DeclarationVeracite ? "✅ Oui" : "❌ Non")</p>
+            <p><strong>Conditions acceptées :</strong> @(Model.ConditionsAcceptees ? "✅ Oui" : "❌ Non")</p>
+        </div>
+        <div class="col-md-6">
+            @if (!string.IsNullOrEmpty(Model.PieceIdentitePath))
+            {
+                <p><strong>📎 Pièce identité :</strong> <a href="@Model.PieceIdentitePath" target="_blank">Voir</a></p>
+            }
+            @if (!string.IsNullOrEmpty(Model.JustificatifDomicilePath))
+            {
+                <p><strong>📎 Justificatif domicile :</strong> <a href="@Model.JustificatifDomicilePath" target="_blank">Voir</a></p>
+            }
+        </div>
+    </div>
+
+    <!-- Action -->
+    <div class="mt-4">
+        <a class="btn btn-outline-secondary" asp-action="TelechargerPDF" asp-route-id="@Model.Id">
+            🖨️ Télécharger le PDF
+        </a>
+        <a class="btn btn-secondary" asp-action="Create">↩️ Nouvelle Demande</a>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  ldap:
+    image: osixia/openldap:1.5.0
+    container_name: qnb-ldap
+    restart: always
+    ports:
+      - "389:389" # Port LDAP
+      - "636:636" # Port LDAPS (si SSL)
+    environment:
+      LDAP_ORGANISATION: "QNB"
+      LDAP_DOMAIN: "qnb.tn"
+      LDAP_ADMIN_PASSWORD: "admin"
+    volumes:
+      - ./ldap-data:/var/lib/ldap
+      - ./ldap-config:/etc/ldap/slapd.d

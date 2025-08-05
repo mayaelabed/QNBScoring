@@ -1,0 +1,134 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model QNBScoring.Core.Entities.DemandeChequier
+
+@{
+    ViewData["Title"] = "Nouvelle Demande de Chéquier";
+}
+
+<h2 class="text-primary mb-4">📝 Nouvelle Demande de Chéquier</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row g-3">
+
+        <!-- Type de chéquier -->
+        <div class="col-md-6">
+            <label asp-for="TypeChequier" class="form-label">Type de chéquier</label>
+            <select asp-for="TypeChequier" class="form-select" required>
+                <option value="">-- Choisir --</option>
+                <option>Standard</option>
+                <option>Agréé</option>
+                <option>Spécial</option>
+            </select>
+            <span asp-validation-for="TypeChequier" class="text-danger"></span>
+        </div>
+
+        <!-- Nombre -->
+        <div class="col-md-6">
+            <label asp-for="NombreChequiers" class="form-label">Nombre de chéquiers</label>
+            <input asp-for="NombreChequiers" class="form-control" type="number" min="1" max="10" />
+            <span asp-validation-for="NombreChequiers" class="text-danger"></span>
+        </div>
+
+        <!-- Motif -->
+        <div class="col-12">
+            <label asp-for="Motif" class="form-label">Motif de la demande</label>
+            <textarea asp-for="Motif" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Motif" class="text-danger"></span>
+        </div>
+
+        <!-- Mode Livraison -->
+        <div class="col-md-6">
+            <label asp-for="ModeLivraison" class="form-label">Mode de livraison</label>
+            <select asp-for="ModeLivraison" class="form-select">
+                <option>À retirer en agence</option>
+                <option>Livraison à domicile</option>
+            </select>
+            <span asp-validation-for="ModeLivraison" class="text-danger"></span>
+        </div>
+
+        <!-- Adresse Livraison -->
+        <div class="col-md-6">
+            <label asp-for="AdresseLivraison" class="form-label">Adresse (si livraison)</label>
+            <input asp-for="AdresseLivraison" class="form-control" />
+            <span asp-validation-for="AdresseLivraison" class="text-danger"></span>
+        </div>
+
+        <!-- Téléphone -->
+        <div class="col-md-6">
+            <label asp-for="Telephone" class="form-label">Téléphone</label>
+            <input asp-for="Telephone" class="form-control" />
+            <span asp-validation-for="Telephone" class="text-danger"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-6">
+            <label asp-for="Email" class="form-label">Email (optionnel)</label>
+            <input asp-for="Email" class="form-control" type="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <!-- AccountNo du client -->
+        <div class="col-md-6">
+            <label for="AccountNo">Numéro de compte</label>
+            <input type="text" name="AccountNo" id="AccountNo" class="form-control" required />
+        </div>
+
+        <!-- Upload fichiers -->
+        <div class="col-md-6">
+            <label class="form-label">📎 Pièce d’identité (PDF ou image)</label>
+            <input type="file" name="PieceIdentiteFile" class="form-control" accept=".pdf,image/*" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">📎 Justificatif de domicile</label>
+            <input type="file" name="JustificatifFile" class="form-control" accept=".pdf,image/*" />
+        </div>
+
+        <!-- Cases à cocher -->
+        <div class="col-12 form-check mt-3">
+            <input asp-for="DeclarationVeracite" class="form-check-input" type="checkbox" />
+            <label asp-for="DeclarationVeracite" class="form-check-label">Je certifie l’exactitude des informations fournies</label>
+        </div>
+
+        <div class="col-12 form-check">
+            <input asp-for="ConditionsAcceptees" class="form-check-input" type="checkbox" />
+            <label asp-for="ConditionsAcceptees" class="form-check-label">J’accepte les conditions générales</label>
+        </div>
+
+        <!-- Soumettre -->
+        <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary w-100">
+                📤 Soumettre la demande
+            </button>
+        </div>
+    </div>
+    <input type="hidden" asp-for="ClientId" />
+</form>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <h5>Veuillez corriger les erreurs suivantes :</h5>
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

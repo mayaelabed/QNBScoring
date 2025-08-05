@@ -1,0 +1,338 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model IEnumerable<QNBScoring.Core.Entities.Score>
+
+@{
+    ViewData["Title"] = "Historique des Scorings";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-history me-2"></i>Historique des Scorings
+        </h1>
+        <div class="d-flex">
+            <button class="btn btn-outline-primary me-2" id="exportBtn">
+                <i class="fas fa-file-export me-1"></i>Exporter
+            </button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Retour
+            </a>
+        </div>
+    </div>
+
+    <form method="get" asp-action="Historique" class="row g-2 mb-4">
+        <div class="col-md-3">
+            <label>Date début</label>
+            <input type="date" name="startDate" value="@Context.Request.Query["startDate"]" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Date fin</label>
+            <input type="date" name="endDate" value="@Context.Request.Query["endDate"]" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Décision</label>
+            <select name="decision" class="form-select">
+                <option value="">Toutes</option>
+                <option value="Accepté" selected="@(Context.Request.Query["decision"] == "Accepté")">Accepté</option>
+                <option value="Refusé" selected="@(Context.Request.Query["decision"] == "Refusé")">Refusé</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-filter me-1"></i>Filtrer
+            </button>
+        </div>
+    </form>
+    <!-- Filtres 
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center bg-white">
+            <h6 class="m-0 font-weight-bold text-primary">Filtres</h6>
+            <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#filterCollapse">
+                <i class="fas fa-filter"></i>
+            </button>
+        </div>
+        <div class="collapse show" id="filterCollapse">
+            <div class="card-body">
+                <form method="get" asp-action="Historique" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Date de</label>
+                        <input type="date" class="form-control" name="startDate" value="@Context.Request.Query["startDate"]">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Date à</label>
+                        <input type="date" class="form-control" name="endDate" value="@Context.Request.Query["endDate"]">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Décision</label>
+                        <select class="form-select" name="decision">
+                            <option value="">Toutes</option>
+                            <option value="Accepté" selected="@(Context.Request.Query["decision"] == "Accepté")">Accepté</option>
+                            <option value="Refusé" selected="@(Context.Request.Query["decision"] == "Refusé")">Refusé</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-1"></i>Filtrer
+                        </button>
+                        @if (!string.IsNullOrEmpty(Context.Request.QueryString.Value))
+                        {
+                            <a href="@Url.Action("Historique")" class="btn btn-outline-secondary ms-2">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>-->
+
+    <!-- Notifications -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-check-circle me-2"></i>
+                <div>@TempData["Success"]</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Tableau des résultats -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-white">
+            <h6 class="m-0 font-weight-bold text-primary">Résultats des scorings</h6>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info d-flex align-items-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucun score disponible pour le moment.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Client</th>
+                                <th>CIN</th>
+                                <th>Date</th>
+                                <th>Score</th>
+                                <th>Décision</th>
+                                <th>Détails</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var score in Model.OrderByDescending(s => s.Demande.DateDemande))
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-3">
+                                                <div class="avatar-title bg-light rounded-circle text-primary fw-bold">
+                                                    @score.Demande.Client.Nom.Substring(0, 1)@score.Demande.Client.Prenom.Substring(0, 1)
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">@score.Demande.Client.Nom @score.Demande.Client.Prenom</h6>
+                                                <small class="text-muted">@score.Demande.Client.AccountNo</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@score.Demande.Client.CIN</td>
+                                    <td>@score.Demande.DateDemande.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar @(score.Decision == "Accepté" ? "bg-success" : "bg-danger")"
+                                                 role="progressbar" style="width: @score.Valeur%"
+                                                 aria-valuenow="@score.Valeur" aria-valuemin="0" aria-valuemax="100">
+                                                @score.Valeur%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge @(score.Decision == "Accepté" ? "bg-success" : "bg-danger")">
+                                            @score.Decision
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-info details-btn"
+                                                data-score="@score.Valeur"
+                                                data-decision="@score.Decision"
+                                                data-comment="@score.Commentaire">
+                                            <i class="fas fa-eye"></i> Détails
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a class="btn btn-sm btn-outline-primary"
+                                               asp-action="TéléchargerPDF"
+                                               asp-route-scoreId="@score.Id"
+                                               title="Télécharger PDF">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-secondary send-btn"
+                                                    data-client="@score.Demande.Client.Id"
+                                                    title="Envoyer par email">
+                                                <i class="fas fa-paper-plane"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal Détails -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Détails du scoring</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6>Score obtenu</h6>
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar" id="modalScoreBar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <div class="text-center mt-2">
+                        <span id="modalScoreValue" class="fw-bold"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h6>Décision</h6>
+                    <span class="badge" id="modalDecision"></span>
+                </div>
+                <div>
+                    <h6>Commentaire</h6>
+                    <p id="modalComment" class="text-muted"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-sm {
+            width: 36px;
+            height: 36px;
+            font-size: 0.875rem;
+        }
+
+        .avatar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .table-hover tbody tr {
+            transition: all 0.15s ease;
+        }
+
+            .table-hover tbody tr:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            }
+
+        .progress {
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <script>
+        $(function () {
+            $('#dateRange').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Annuler',
+                    applyLabel: 'Appliquer',
+                    format: 'DD/MM/YYYY'
+                }
+            });
+
+            $('#dateRange').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            });
+
+            $('#dateRange').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialisation des tooltips
+            $('[title]').tooltip();
+
+            // Gestion des boutons de détails
+            $('.details-btn').click(function() {
+                const score = $(this).data('score');
+                const decision = $(this).data('decision');
+                const comment = $(this).data('comment');
+
+                // Mise à jour du modal
+                $('#modalScoreBar').css('width', score + '%').text(score + '%');
+                $('#modalScoreValue').text('Score: ' + score + '/100');
+
+                // Style selon la décision
+                if (decision === "Accepté") {
+                    $('#modalDecision').removeClass('bg-danger').addClass('bg-success').text(decision);
+                    $('#modalScoreBar').removeClass('bg-danger').addClass('bg-success');
+                } else {
+                    $('#modalDecision').removeClass('bg-success').addClass('bg-danger').text(decision);
+                    $('#modalScoreBar').removeClass('bg-success').addClass('bg-danger');
+                }
+
+                // Commentaire
+                $('#modalComment').text(comment || "Aucun commentaire disponible");
+
+                // Afficher le modal
+                $('#detailsModal').modal('show');
+            });
+
+            // Export Excel
+            $('#exportBtn').click(function() {
+                // Implémentation de l'export
+                alert("Fonctionnalité d'export à implémenter");
+            });
+
+            // Envoi par email
+            $('.send-btn').click(function() {
+                const clientId = $(this).data('client');
+                // Implémentation de l'envoi
+                alert("Envoi pour le client ID: " + clientId);
+            });
+        });
+    </script>
+}

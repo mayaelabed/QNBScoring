@@ -1,0 +1,143 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model IEnumerable<QNBScoring.Core.Entities.Score>
+@{
+    ViewData["Title"] = "Statistiques Scoring";
+    var scores = ViewBag.ScoreData as List<dynamic>;
+}
+
+<h2 class="mb-4">📊 Statistiques des scorings</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Décisions de scoring</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="decisionChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Évolution des scores moyens</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="evolutionChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+    <script>
+        const scores = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.ScoreData));
+
+        // Formatage des dates pour un meilleur affichage
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return new Intl.DateTimeFormat('fr-FR', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            }).format(date);
+        }
+
+        // Graphique 1 : Décisions (Accepté/Refusé)
+        const acceptedCount = scores.filter(s => s.Decision === "Accepté").length;
+        const refusedCount = scores.filter(s => s.Decision === "Refusé").length;
+
+        const decisionCtx = document.getElementById('decisionChart').getContext('2d');
+        new Chart(decisionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Accepté', 'Refusé'],
+                datasets: [{
+                    data: [acceptedCount, refusedCount],
+                    backgroundColor: ['#28a745', '#dc3545'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = acceptedCount + refusedCount;
+                                const percentage = Math.round((context.raw / total) * 100);
+                                return `${context.label}: ${context.raw} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Graphique 2 : Évolution des scores moyens
+        const grouped = scores.reduce((acc, s) => {
+            acc[s.Date] = acc[s.Date] || [];
+            acc[s.Date].push(s.Valeur);
+            return acc;
+        }, {});
+
+        const sortedDates = Object.keys(grouped).sort((a, b) => new Date(a) - new Date(b));
+        const avgScores = sortedDates.map(d => {
+            const values = grouped[d];
+            return (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2);
+        });
+
+        const formattedDates = sortedDates.map(formatDate);
+
+        const evolutionCtx = document.getElementById('evolutionChart').getContext('2d');
+        new Chart(evolutionCtx, {
+            type: 'line',
+            data: {
+                labels: formattedDates,
+                datasets: [{
+                    label: 'Score moyen',
+                    data: avgScores,
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#0d6efd',
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        suggestedMin: Math.min(...avgScores) - 5,
+                        suggestedMax: Math.max(...avgScores) + 5
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Score: ${context.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,216 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model IEnumerable<QNBScoring.Core.Entities.DemandeChequier>
+
+@{
+    ViewData["Title"] = "Liste des Demandes";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-file-invoice-dollar me-2"></i>Gestion des demandes de chéquiers
+        </h1>
+        <a asp-action="Create" class="btn btn-primary shadow-sm">
+            <i class="fas fa-plus me-2"></i>Nouvelle demande
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-white">
+            <h6 class="m-0 font-weight-bold text-primary">Liste des demandes</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-export me-2"></i>Exporter</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-filter me-2"></i>Filtres avancés</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    Aucune demande enregistrée.
+                </div>
+            }
+            else
+            {
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <form method="get" class="row g-3">
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    <input type="text" name="search" class="form-control" 
+                                           placeholder="Rechercher un client" value="@ViewBag.Search" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="type" class="form-select">
+                                    <option value="Tous" selected="@(ViewBag.TypeFilter == null || ViewBag.TypeFilter == "Tous")">Tous types</option>
+                                    <option value="Standard" selected="@(ViewBag.TypeFilter == "Standard")">Standard</option>
+                                    <option value="Agréé" selected="@(ViewBag.TypeFilter == "Agréé")">Agréé</option>
+                                    <option value="Spécial" selected="@(ViewBag.TypeFilter == "Spécial")">Spécial</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-filter me-1"></i>Filtrer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="small text-muted">
+                            Affichage de <span class="fw-bold">@Model.Count()</span> demandes
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Client</th>
+                                <th>N° Compte</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th class="text-end">Nombre</th>
+                                <th>Statut</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var d in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-3">
+                                                <div class="avatar-title bg-light rounded-circle text-primary fw-bold">
+                                                    @d.Client.Nom.Substring(0,1)@d.Client.Prenom.Substring(0,1)
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">@d.Client.Nom @d.Client.Prenom</h6>
+                                                <small class="text-muted">@d.Client.Email</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@d.Client.AccountNo</td>
+                                    <td>@d.DateDemande.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <span class="badge 
+                                              @(d.TypeChequier == "Standard" ? "bg-primary" : 
+                                                d.TypeChequier == "Agréé" ? "bg-success" : "bg-warning")">
+                                            @d.TypeChequier
+                                        </span>
+                                    </td>
+                                    <td class="text-end">@d.NombreChequiers</td>
+                                    <td>
+                                        @if(d.Score?.Decision == "Accepté")
+                                        {
+                                            <span class="badge bg-success"><i class="fas fa-check me-1"></i>Approuvé</span>
+                                        }
+                                        else if(d.Score?.Decision == "Refusé")
+                                        {
+                                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i>Refusé</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary"><i class="fas fa-clock me-1"></i>En attente</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Details" asp-route-id="@d.Id" 
+                                               class="btn btn-sm btn-outline-primary" title="Détails">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a asp-action="TelechargerPDF" asp-route-id="@d.Id" 
+                                               class="btn btn-sm btn-outline-secondary" title="PDF">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
+                                            <a asp-action="Suivi" asp-route-id="@d.Id" 
+                                               class="btn btn-sm btn-outline-success" title="Suivi">
+                                                <i class="fas fa-chart-line"></i>
+                                            </a>
+                                            <!-- 🔧 Bouton modifier -->
+                                            <a asp-action="Edit" asp-route-id="@d.Id" 
+                                               class="btn btn-sm btn-outline-warning" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-end mt-4">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Précédent</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Suivant</a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-sm {
+            width: 36px;
+            height: 36px;
+            font-size: 0.875rem;
+        }
+        .avatar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+        .table-hover tbody tr {
+            transition: all 0.15s ease;
+        }
+        .table-hover tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Initialisation des tooltips Bootstrap
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+}

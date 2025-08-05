@@ -1,0 +1,93 @@
+﻿@model IEnumerable<QNBScoring.Core.Entities.Score>
+@{
+    ViewData["Title"] = "Historique des Scores";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800">
+            <i class="fas fa-history me-2"></i>Historique des Scores
+        </h1>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-white py-3">
+            <form method="get" class="row g-3">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        <input type="text" name="search" class="form-control" placeholder="Rechercher un client"
+                               value="@ViewBag.Search" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select name="decision" class="form-select">
+                        <option value="">Toutes les décisions</option>
+                        <option value="Accepté" selected="@(ViewBag.Decision == "Accepté")">Accepté</option>
+                        <option value="Refusé" selected="@(ViewBag.Decision == "Refusé")">Refusé</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-filter me-1"></i>Filtrer
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle me-2"></i>Aucun score trouvé.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th>Score</th>
+                                <th>Décision</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var score in Model)
+                            {
+                                <tr>
+                                    <td>@score.Demande.Client.Nom @score.Demande.Client.Prenom</td>
+                                    <td>@score.Demande.DateDemande.ToString("dd/MM/yyyy")</td>
+                                    <td>@score.Valeur</td>
+                                    <td>
+                                        @if (score.Decision == "Accepté")
+                                        {
+                                            <span class="badge bg-success">Accepté</span>
+                                        }
+                                        else if (score.Decision == "Refusé")
+                                        {
+                                            <span class="badge bg-danger">Refusé</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">En attente</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="Resultats" asp-route-scoreId="@score.Id" class="btn btn-sm btn-outline-info">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

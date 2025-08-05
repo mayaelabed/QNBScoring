@@ -1,0 +1,9 @@
+# Ignore les fichiers et dossiers générés par Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vsidx
+*.vssscc
+*.csproj.user
