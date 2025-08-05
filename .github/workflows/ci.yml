@@ -17,13 +17,16 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0.0'  
+          dotnet-version: '8.0.x'  
+
+      - name: Display .NET SDK version
+        run: dotnet --version
 
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build solution with DISABLE_LDAP symbol
-        run: dotnet build --no-restore --configuration CI
+        run: dotnet build --no-restore --configuration CI /p:DefineConstants="DISABLE_LDAP"
 
       - name: Run unit tests
         run: dotnet test --no-build --configuration CI --logger trx
