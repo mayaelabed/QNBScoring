@@ -17,8 +17,8 @@ public class TransactionBancaire
     public required string TranCode { get; set; }
     public required string TranDescEng { get; set; }
     public required string ReconcileRef { get; set; }
-    public string OperationType { get; set; } // Pour stocker le type d'opération (INWARD CLEARING, etc.)
-    public string Description { get; set; } // Pour stocker la description de la transaction
+    public string? OperationType { get; set; } // Pour stocker le type d'opération (INWARD CLEARING, etc.)
+    public string? Description { get; set; } // Pour stocker la description de la transaction
     public required string Narrative1 { get; set; }
     public string? Narrative2 { get; set; }
     public string? Narrative3 { get; set; }

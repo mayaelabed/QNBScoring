@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QNBScoring.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using QNBScoring.Infrastructure.Data;
 namespace QNBScoring.Infrastructure.Migrations
 {
     [DbContext(typeof(QNBScoringDbContext))]
-    partial class QNBScoringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250806083827_updateCHeqNBR")]
+    partial class updateCHeqNBR
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,9 +153,6 @@ namespace QNBScoring.Infrastructure.Migrations
                     b.Property<string>("PieceIdentitePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PlafondParCheque")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Telephone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -267,6 +267,7 @@ namespace QNBScoring.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Narrative1")
@@ -283,6 +284,7 @@ namespace QNBScoring.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OperationType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostGrpUserId")

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QNBScoring.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using QNBScoring.Infrastructure.Data;
 namespace QNBScoring.Infrastructure.Migrations
 {
     [DbContext(typeof(QNBScoringDbContext))]
-    partial class QNBScoringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250806085153_updateCHeqNBR+Plafond")]
+    partial class updateCHeqNBRPlafond
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

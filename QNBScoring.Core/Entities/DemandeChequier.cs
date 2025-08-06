@@ -26,45 +26,47 @@ namespace QNBScoring.Core.Entities
         public Client Client { get; set; } = null!;
 
         // 🧾 Informations sur le chéquier
+        public string TypeChequier { get; set; } = "Retail"; // Exemples : Standard, Agréé, Spécial
+        [Range(10, 25)]
+        public int NombreChequiers { get; set; } = 10;
 
-        public string TypeChequier { get; set; } = "Standard"; // Exemples : Standard, Agréé, Spécial
-        [Range(5, 15)]
-        public int NombreChequiers { get; set; } =1;
-       
         public string Motif { get; set; } = string.Empty;
 
+        // Nouveau champ: Plafond par chèque
+        [Range(100, 100000, ErrorMessage = "Le plafond doit être entre {1} et {2} DT")]
+        [Display(Name = "Plafond par chèque (DT)")]
+        public decimal PlafondParCheque { get; set; } = 1000;
+
         // 📦 Conditions de livraison
-        public string ModeLivraison { get; set; } = "À retirer en agence"; // Exemples : À retirer en agence, Livraison à domicile
-         public string AdresseLivraison { get; set; } = string.Empty;
+        public string ModeLivraison { get; set; } = "À retirer en agence";
+        public string AdresseLivraison { get; set; } = string.Empty;
 
         // 📞 Informations de contact
-        
         [Phone]
         public string Telephone { get; set; } = string.Empty;
-        
+
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
         // ✅ Validation
-         public bool DeclarationVeracite { get; set; } = false;
-         public bool ConditionsAcceptees { get; set; } = false;
+        public bool DeclarationVeracite { get; set; } = false;
+        public bool ConditionsAcceptees { get; set; } = false;
 
         // 📄 Pièces jointes
         public string? PieceIdentitePath { get; set; }
         public string? JustificatifDomicilePath { get; set; }
-        
 
         // 🔗 Relation avec le score
         public Score? Score { get; set; }
         public int TransactionReference { get; set; }
-        //public string Raison { get; set; }
     }
+}
 
     /* Détails des nouveaux champs
-TypeChequier : Permet de spécifier le type de chéquier souhaité (Standard, Agréé, Spécial).
+TypeChequier : Permet de spécifier le type de chéquier souhaité (corporate retail).
 DEMANDE EXPERT
 
-NombreChequiers : Indique la quantité de chéquiers demandés.
+NombreChequiers : Indique le nb de feuille dans un chéquiers demandés.
 
 Motif : Justifie la demande de chéquier (par exemple, gestion des dépenses professionnelles).
 DEMANDE EXPERT
@@ -80,4 +82,3 @@ DeclarationVeracite et ConditionsAcceptees : Champs booléens pour confirmer que
 PieceIdentitePath et JustificatifDomicilePath : Chemins vers les fichiers téléchargés pour la pièce d'identité et le justificatif de domicile.
 DEMANDE EXPERT*/
 
-}

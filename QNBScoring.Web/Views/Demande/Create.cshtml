@@ -17,9 +17,8 @@
             <label asp-for="TypeChequier" class="form-label">Type de chéquier</label>
             <select asp-for="TypeChequier" class="form-select" required>
                 <option value="">-- Choisir --</option>
-                <option>Standard</option>
-                <option>Agréé</option>
-                <option>Spécial</option>
+                <option>Corporate</option>
+                <option>Retail</option>
             </select>
             <span asp-validation-for="TypeChequier" class="text-danger"></span>
         </div>
@@ -27,7 +26,7 @@
         <!-- Nombre -->
         <div class="col-md-6">
             <label asp-for="NombreChequiers" class="form-label">Nombre de chéquiers</label>
-            <input asp-for="NombreChequiers" class="form-control" type="number" min="1" max="10" />
+            <input asp-for="NombreChequiers" class="form-control" type="number" min="10" max="25" />
             <span asp-validation-for="NombreChequiers" class="text-danger"></span>
         </div>
 
