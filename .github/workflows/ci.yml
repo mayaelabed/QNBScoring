@@ -8,10 +8,11 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: windows-2022  
+    runs-on: windows-2022
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Updated to v4
+        uses: actions/checkout@v4
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
@@ -27,7 +28,7 @@ jobs:
       - name: Build solution without LDAP
         run: dotnet build --no-restore --configuration Release /p:DefineConstants="DISABLE_LDAP"
 
-      - name: Install Coverlet (for coverage)
+      - name: Install Coverlet
         run: dotnet add QNBScoring.Tests package coverlet.collector
 
       - name: Run unit tests with coverage
@@ -40,7 +41,7 @@ jobs:
         run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:Html
 
       - name: Upload coverage report as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # Updated to v4
         with:
           name: coverage-report
           path: coverage-report
