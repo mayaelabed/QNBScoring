@@ -1,4 +1,4 @@
-name: CI - Build and Test QNBScoring
+name: CI - Build, Test, and Coverage
 
 on:
   push:
@@ -8,17 +8,15 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: windows-2025
-
-
+    runs-on: windows-2022  
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to v4
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'  
+          dotnet-version: '8.0.x'
 
       - name: Display .NET SDK version
         run: dotnet --version
@@ -29,6 +27,20 @@ jobs:
       - name: Build solution without LDAP
         run: dotnet build --no-restore --configuration Release /p:DefineConstants="DISABLE_LDAP"
 
+      - name: Install Coverlet (for coverage)
+        run: dotnet add QNBScoring.Tests package coverlet.collector
 
-      - name: Run unit tests
-        run: dotnet test --no-build --configuration Release --logger trx
+      - name: Run unit tests with coverage
+        run: dotnet test --no-build --configuration Release --logger trx --collect:"XPlat Code Coverage"
+
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate HTML coverage report
+        run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:Html
+
+      - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage-report

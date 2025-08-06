@@ -10,14 +10,16 @@
         "dependencies": {
           "AutoFixture": "4.18.1",
           "AutoFixture.AutoMoq": "4.18.1",
+          "ClosedXML": "0.105.0",
           "FluentAssertions": "8.3.0",
+          "Microsoft.AspNetCore.Http": "2.3.0",
           "Microsoft.EntityFrameworkCore.InMemory": "9.0.7",
           "Microsoft.NET.Test.Sdk": "17.12.0",
           "Moq": "4.20.72",
           "QNBScoring.Core": "1.0.0",
           "QNBScoring.Infrastructure": "1.0.0",
           "QNBScoring.Web": "1.0.0",
-          "coverlet.collector": "6.0.2",
+          "coverlet.collector": "6.0.4",
           "xunit": "2.9.3",
           "xunit.runner.visualstudio": "2.8.2"
         },
@@ -126,7 +128,7 @@
           }
         }
       },
-      "coverlet.collector/6.0.2": {},
+      "coverlet.collector/6.0.4": {},
       "DocumentFormat.OpenXml/3.1.1": {
         "dependencies": {
           "DocumentFormat.OpenXml.Framework": "3.1.1"
@@ -2407,12 +2409,12 @@
       "path": "closedxml.parser/2.0.0",
       "hashPath": "closedxml.parser.2.0.0.nupkg.sha512"
     },
-    "coverlet.collector/6.0.2": {
+    "coverlet.collector/6.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-bJShQ6uWRTQ100ZeyiMqcFlhP7WJ+bCuabUs885dJiBEzMsJMSFr7BOyeCw4rgvQokteGi5rKQTlkhfQPUXg2A==",
-      "path": "coverlet.collector/6.0.2",
-      "hashPath": "coverlet.collector.6.0.2.nupkg.sha512"
+      "sha512": "sha512-lkhqpF8Pu2Y7IiN7OntbsTtdbpR1syMsm2F3IgX6ootA4ffRqWL5jF7XipHuZQTdVuWG/gVAAcf8mjk8Tz0xPg==",
+      "path": "coverlet.collector/6.0.4",
+      "hashPath": "coverlet.collector.6.0.4.nupkg.sha512"
     },
     "DocumentFormat.OpenXml/3.1.1": {
       "type": "package",
