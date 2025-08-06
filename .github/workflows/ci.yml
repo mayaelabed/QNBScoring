@@ -26,8 +26,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build solution with DISABLE_LDAP symbol
-        run: dotnet build --no-restore --configuration CI /p:DefineConstants="DISABLE_LDAP"
+      - name: Build solution without LDAP
+        run: dotnet build --no-restore --configuration Release /p:DefineConstants="DISABLE_LDAP"
+
 
       - name: Run unit tests
         run: dotnet test --no-build --configuration CI --logger trx
