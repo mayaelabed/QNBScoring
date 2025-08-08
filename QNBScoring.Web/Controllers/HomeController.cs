@@ -7,6 +7,9 @@ using QNBScoring.Core.Interfaces;
 using QNBScoring.Infrastructure.Data;
 using QNBScoring.Infrastructure.Services;
 using QNBScoring.Web.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QNBScoring.Web.Controllers
 {

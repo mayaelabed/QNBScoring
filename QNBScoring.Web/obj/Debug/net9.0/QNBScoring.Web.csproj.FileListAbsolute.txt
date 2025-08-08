@@ -1,5 +1,13 @@
-D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\LatoFont\Lato-ThinItalic.ttf
-D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.csproj.AssemblyReference.cache
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.GeneratedMSBuildEditorConfig.editorconfig
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.AssemblyInfoInputs.cache
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.AssemblyInfo.cs
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.csproj.CoreCompileInputs.cache
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.MvcApplicationPartsAssemblyInfo.cs
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.MvcApplicationPartsAssemblyInfo.cache
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.RazorAssemblyInfo.cache
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.RazorAssemblyInfo.cs
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.sourcelink.json
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\appsettings.Development.json
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\appsettings.json
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\libman.json
@@ -22,6 +30,7 @@ D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\LatoFont\Lato-Regular.ttf
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\LatoFont\Lato-SemiBold.ttf
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\LatoFont\Lato-SemiBoldItalic.ttf
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\LatoFont\Lato-Thin.ttf
+D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\LatoFont\Lato-ThinItalic.ttf
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\LatoFont\OFL.txt
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\QNBScoring.Web.exe
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\QNBScoring.Web.deps.json
@@ -44,6 +53,7 @@ D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.AspNetCore.Authentic
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.Build.Locator.dll
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
@@ -213,16 +223,6 @@ D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\QNBScoring.Core.dll
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\QNBScoring.Infrastructure.dll
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\QNBScoring.Core.pdb
 D:\QNB\QNBScoring\QNBScoring.Web\bin\Debug\net9.0\QNBScoring.Infrastructure.pdb
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.csproj.AssemblyReference.cache
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.GeneratedMSBuildEditorConfig.editorconfig
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.AssemblyInfoInputs.cache
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.AssemblyInfo.cs
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.csproj.CoreCompileInputs.cache
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.MvcApplicationPartsAssemblyInfo.cs
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.MvcApplicationPartsAssemblyInfo.cache
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.RazorAssemblyInfo.cache
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.RazorAssemblyInfo.cs
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.sourcelink.json
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\scopedcss\bundle\QNBScoring.Web.styles.css
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\scopedcss\projectbundle\QNBScoring.Web.bundle.scp.css
@@ -309,4 +309,3 @@ D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\refint\QNBScoring.Web.dll
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.pdb
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.genruntimeconfig.cache
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\ref\QNBScoring.Web.dll
-D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

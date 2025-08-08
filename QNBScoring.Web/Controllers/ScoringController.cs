@@ -4,6 +4,8 @@ using QNBScoring.Core.Entities;
 using QNBScoring.Core.Interfaces;
 using QNBScoring.Infrastructure.Data;
 using QNBScoring.Infrastructure.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QNBScoring.Web.Controllers
 {

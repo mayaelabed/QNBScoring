@@ -1,4 +1,6 @@
-﻿namespace QNBScoring.Web.Models
+﻿using System;
+
+namespace QNBScoring.Web.Models
 {
     public class DemandeScoreViewModel
     {

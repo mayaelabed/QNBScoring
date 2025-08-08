@@ -1,4 +1,6 @@
-﻿namespace QNBScoring.Web.Models
+﻿using System.Collections.Generic;
+
+namespace QNBScoring.Web.Models
 {
     public class DashboardViewModel
     {

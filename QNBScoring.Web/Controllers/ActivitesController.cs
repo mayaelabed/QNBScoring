@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QNBScoring.Infrastructure.Data;
+using System.Linq;
+using System.Threading.Tasks;
+
 public class ActivitesController : Controller
 {
     private readonly QNBScoringDbContext _context;

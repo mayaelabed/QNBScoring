@@ -3,51 +3,32 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
-	  <!-- Global warning suppression -->
-	  <NoWarn>CA1416;CS8600;CS8602;CS8603;CS8618</NoWarn>
-
-	  <!-- Optional: Keep nullable checks but don't treat as errors -->
-	  <Nullable>enable</Nullable>
-	  <WarningsNotAsErrors>$(WarningsNotAsErrors);CS8600;CS8602;CS8603;CS8618</WarningsNotAsErrors>
-    <ImplicitUsings>enable</ImplicitUsings>
-	  <WindowsAuthentication>true</WindowsAuthentication>
-	  <AnonymousAuthentication>false</AnonymousAuthentication>
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'CI'">
 		<DefineConstants>$(DefineConstants);DISABLE_LDAP</DefineConstants>
-		<!-- Keep nullable checks but don't treat as errors -->
-		<Nullable>enable</Nullable>
-		<WarningsNotAsErrors>CS8600;CS8602;CS8603;CS8618</WarningsNotAsErrors>
-
-		<!-- OR disable completely -->
-		<Nullable>disable</Nullable>
+		
 	</PropertyGroup>
 
 
 	<ItemGroup>
-		<!--Correct way to add per-file suppressions -->
-			<Compile Update="Services\LdapService.cs">
-				<NoWarn>$(NoWarn);CA1416</NoWarn>
-			</Compile>
-	
-    <PackageReference Include="ClosedXML" Version="0.105.0" />
-    <PackageReference Include="EPPlus" Version="8.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="QuestPDF" Version="2025.5.0" />
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.7" />
-    <PackageReference Include="System.DirectoryServices.Protocols" Version="9.0.7" />
-  </ItemGroup>
+		<PackageReference Include="ClosedXML" Version="0.105.0" />
+		<PackageReference Include="EPPlus" Version="8.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="QuestPDF" Version="2025.5.0" />
+		<PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.7" />
+		<PackageReference Include="System.DirectoryServices.Protocols" Version="9.0.7" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\QNBScoring.Core\QNBScoring.Core.csproj" />

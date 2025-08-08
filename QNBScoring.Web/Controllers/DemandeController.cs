@@ -1,9 +1,14 @@
-﻿// QNBScoring.Web/Controllers/DemandeController.cs
-using Azure.Core;
+﻿using Azure.Core;
 using DocumentFormat.OpenXml.InkML;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using QNBScoring.Core.Entities;
 using QNBScoring.Infrastructure.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class DemandeController : Controller
 {
