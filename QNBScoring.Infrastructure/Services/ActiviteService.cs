@@ -16,7 +16,7 @@ namespace QNBScoring.Infrastructure.Services
 
         public async Task EnregistrerAsync(string action, string utilisateur, string status)
         {
-            var activite = new Activite
+            var activite = new Activities
             {
                 Action = action,
                 Utilisateur = utilisateur,
@@ -28,7 +28,7 @@ namespace QNBScoring.Infrastructure.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Activite>> ObtenirDernieresActivitesAsync(int nombre = 5)
+        public async Task<List<Activities>> ObtenirDernieresActivitesAsync(int nombre = 5)
         {
             return await _context.Activites
                 .OrderByDescending(a => a.Date)

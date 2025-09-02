@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QNBScoring.Core.Entities
 {
-    public class Activite
+    public class Activities
     {
         public int Id { get; set; }
         public string Action { get; set; }

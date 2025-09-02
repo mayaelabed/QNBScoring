@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QNBScoring.UnitTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+748a36f4fad3cce51bd6fa74f05b8ea50138fcfb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a0a6c9ea1ac0cd35c57000aacd4512ac8d4dca70")]
 [assembly: System.Reflection.AssemblyProductAttribute("QNBScoring.UnitTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QNBScoring.UnitTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

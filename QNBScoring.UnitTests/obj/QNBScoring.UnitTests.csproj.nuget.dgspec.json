@@ -133,6 +133,10 @@
               "target": "Package",
               "version": "[4.13.0, )"
             },
+            "Mailjet.Api": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.AspNetCore.Http.Abstractions": {
               "target": "Package",
               "version": "[2.3.0, )"
@@ -161,7 +165,7 @@
             },
             "System.DirectoryServices.AccountManagement": {
               "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[9.0.8, )"
             },
             "Twilio": {
               "target": "Package",
@@ -369,9 +373,13 @@
               "target": "Package",
               "version": "[8.0.5, )"
             },
+            "Mailjet.Api": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.Negotiate": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[9.0.8, )"
             },
             "Microsoft.AspNetCore.SignalR.Core": {
               "target": "Package",
@@ -401,13 +409,17 @@
               "target": "Package",
               "version": "[2025.5.0, )"
             },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
             "System.DirectoryServices.AccountManagement": {
               "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[9.0.8, )"
             },
             "System.DirectoryServices.Protocols": {
               "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[9.0.8, )"
             }
           },
           "imports": [

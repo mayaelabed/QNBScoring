@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="Mailjet.Api" Version="3.0.0" />
     <PackageReference Include="MailKit" Version="4.13.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
@@ -26,7 +27,7 @@
 	  
 
 	  
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.7" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.8" />
 	  
 
 	  

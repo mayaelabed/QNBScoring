@@ -56,9 +56,9 @@
                             <div class="col-md-4">
                                 <select name="type" class="form-select">
                                     <option value="Tous" selected="@(ViewBag.TypeFilter == null || ViewBag.TypeFilter == "Tous")">Tous types</option>
-                                    <option value="Standard" selected="@(ViewBag.TypeFilter == "Standard")">Standard</option>
-                                    <option value="Agréé" selected="@(ViewBag.TypeFilter == "Agréé")">Agréé</option>
-                                    <option value="Spécial" selected="@(ViewBag.TypeFilter == "Spécial")">Spécial</option>
+                                    <option value="Retail" selected="@(ViewBag.TypeFilter == "Retail")">Retail</option>
+                                    <option value="Corporate" selected="@(ViewBag.TypeFilter == "Corporate")">Corporate</option>
+                                   
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -109,8 +109,8 @@
                                     <td>@d.DateDemande.ToString("dd/MM/yyyy")</td>
                                     <td>
                                         <span class="badge 
-                                              @(d.TypeChequier == "Standard" ? "bg-primary" : 
-                                                d.TypeChequier == "Agréé" ? "bg-success" : "bg-warning")">
+                                              @(d.TypeChequier == "Retail" ? "bg-primary" : 
+                                                d.TypeChequier == "Corporate" ? "bg-success" : "bg-warning")">
                                             @d.TypeChequier
                                         </span>
                                     </td>
@@ -123,6 +123,10 @@
                                         else if(d.Score?.Decision == "Refusé")
                                         {
                                             <span class="badge bg-danger"><i class="fas fa-times me-1"></i>Refusé</span>
+                                        }
+                                        else if(d.Score?.Decision == "Accepté avec restriction")
+                                        {
+                                            <span class="badge bg-secondary"><i class="fas fa-clock me-1"></i>Accepté avec restriction</span>
                                         }
                                         else
                                         {

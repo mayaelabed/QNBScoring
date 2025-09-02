@@ -154,7 +154,8 @@ public class DemandeService : IDemandeService
         var total = demandes.Count();
         var scorees = demandes.Count(d => d.Score != null);
         var acceptees = demandes.Count(d => d.Score?.Decision == "Accepté");
-        var tauxAcceptation = scorees > 0 ? (int)Math.Round((double)acceptees / scorees * 100) : 0;
+        var avecRestriction = demandes.Count(d => d.Score?.Decision == "Accepté avec restriction");
+        var tauxAcceptation = scorees > 0 ? (int)Math.Round((double)(acceptees + avecRestriction) / scorees * 100) : 0;
         var derniereAnalyse = demandes.OrderByDescending(d => d.DateDemande).FirstOrDefault()?.DateDemande.ToString("dd/MM");
 
         return new DemandeStats
@@ -164,6 +165,7 @@ public class DemandeService : IDemandeService
             TauxAcceptation = tauxAcceptation,
             DerniereAnalyse = derniereAnalyse,
             Acceptees = acceptees,
+            AvecRestriction = avecRestriction,
             Refusees = demandes.Count(d => d.Score?.Decision == "Refusé"),
             NonScorees = total - scorees
         };

@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model IEnumerable<QNBScoring.Core.ViewModels.ClientListViewModel>
+
+@{
+    ViewData["Title"] = "Liste des Clients QNB";
+}
+<h2>Liste des Clients</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Profession</th>
+            <th>Dernier Import</th>
+            <th>Nombre de Transactions</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.Nom</td>
+                <td>@client.Profession</td>
+                <td>@client.LastImportDate?.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@client.TransactionCount</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = client.Id })"
+                       class="btn btn-primary btn-sm">Détails</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

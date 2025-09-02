@@ -1,0 +1,64 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "QNB Scoring API",
+    "description": "API for QNB Scoring Application with AD Integration",
+    "version": "v1"
+  },
+  "paths": {
+    "/whoami": {
+      "get": {
+        "tags": [
+          "QNBScoring.Web"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/testad/user/{username}": {
+      "get": {
+        "tags": [
+          "TestAd"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/testad/status": {
+      "get": {
+        "tags": [
+          "TestAd"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

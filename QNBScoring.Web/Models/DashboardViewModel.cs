@@ -7,6 +7,9 @@ namespace QNBScoring.Web.Models
         public int TotalDemandes { get; set; }
         public int DemandesApprouvees { get; set; }
         public int DemandesRejetees { get; set; }
+        public int DemandesAvecRestriction { get; set; } // Modifié depuis DemandesRestraines
+        public string Username { get; set; }
+        public IEnumerable<string> OUs { get; set; }
 
         public List<RecentActivity> DernieresActivites { get; set; }
     }

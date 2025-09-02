@@ -30,12 +30,4 @@
     <ProjectReference Include="..\QNBScoring.Infrastructure\QNBScoring.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Entities\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="TestData\" />
-  </ItemGroup>
-
 </Project>

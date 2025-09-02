@@ -162,12 +162,10 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-info details-btn"
-                                                data-score="@score.Valeur"
-                                                data-decision="@score.Decision"
-                                                data-comment="@score.Commentaire">
-                                            <i class="fas fa-eye"></i> Détails
-                                        </button>
+                                   
+                                            <a asp-action="Resultats" asp-route-scoreId="@score.Id" class="btn btn-sm btn-outline-info">
+                                                <i class="fas fa-eye"></i> Détails
+                                            </a>
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group">
@@ -177,11 +175,14 @@
                                                title="Télécharger PDF">
                                                 <i class="fas fa-file-pdf"></i>
                                             </a>
-                                            <button class="btn btn-sm btn-outline-secondary send-btn"
-                                                    data-client="@score.Demande.Client.Id"
-                                                    title="Envoyer par email">
-                                                <i class="fas fa-paper-plane"></i>
-                                            </button>
+                                            <form asp-action="EnvoyerMail" asp-controller="Score" method="post" style="display:inline;">
+                                                <input type="hidden" name="scoreId" value="@score.Id" />
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary" title="Envoyer par email">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                </button>
+                                            </form>
+
+                                            
                                         </div>
                                     </td>
                                 </tr>

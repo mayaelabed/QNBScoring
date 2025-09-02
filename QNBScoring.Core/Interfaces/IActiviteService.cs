@@ -11,6 +11,6 @@ namespace QNBScoring.Core.Interfaces
     public interface IActiviteService
     {
         Task EnregistrerAsync(string action, string utilisateur, string status);
-        Task<List<Activite>> ObtenirDernieresActivitesAsync(int nombre = 5);
+        Task<List<Activities>> ObtenirDernieresActivitesAsync(int nombre = 5);
     }
 }

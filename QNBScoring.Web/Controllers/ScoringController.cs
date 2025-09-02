@@ -16,19 +16,22 @@ namespace QNBScoring.Web.Controllers
         private readonly IScoringService _scoringService;
         private readonly PdfService _pdfService;
         private readonly QNBScoringDbContext _context;
+        private readonly IEmailService _emailService;
 
         public ScoringController(
             IDemandeChequierRepository demandeRepo,
             IScoreRepository scoreRepo,
             IScoringService scoringService,
             PdfService pdfService,
-            QNBScoringDbContext context)
+            QNBScoringDbContext context, IEmailService emailService)
         {
             _demandeRepo = demandeRepo;
             _scoreRepo = scoreRepo;
             _scoringService = scoringService;
             _pdfService = pdfService;
             _context = context;
+            _emailService = emailService;
+
         }
 
         public async Task<IActionResult> Index()
@@ -108,7 +111,7 @@ namespace QNBScoring.Web.Controllers
             return File(pdfBytes, "application/pdf", "rapport_scoring.pdf");
         }
 
-       
+
         /*public async Task<IActionResult> Statistics()
         {
             var scores = await _scoreRepo.GetAllAsync();
@@ -125,7 +128,32 @@ namespace QNBScoring.Web.Controllers
             return View(scores);
         }
         */
+        [HttpPost]
+        public async Task<IActionResult> EnvoyerMail(int scoreId)
+        {
+            var score = await _context.Scores
+                .Include(s => s.Demande)
+                .ThenInclude(d => d.Client)
+                .FirstOrDefaultAsync(s => s.Id == scoreId);
 
+            if (score == null) return NotFound();
+
+            var agentEmail = score.Demande.Client.Email; // supposons que tu as ajouté Email à l’entité Client
+            var subject = $"Résultat de la demande de chéquier #{score.Demande.Id}";
+            var body = $@"
+            <h3>Bonjour {score.Demande.Client.Prenom},</h3>
+            <p>Votre demande de chéquier a été traitée.</p>
+            <p><b>Résultat :</b> {score.Decision}</p>
+            <p><b>Score obtenu :</b> {score.Valeur}%</p>
+            <p><b>Commentaire :</b> {score.Commentaire}</p>
+            <hr>
+            <small>Message envoyé automatiquement par le système QNBScoring</small>";
+
+            await _emailService.SendEmailAsync(agentEmail, subject, body);
+
+            TempData["Success"] = $"Email envoyé à l’agent {score.Demande.Client.Nom}.";
+            return RedirectToAction("Historique");
+        }
         [HttpPost]
         public async Task<IActionResult> Supprimer(int scoreId)
         {

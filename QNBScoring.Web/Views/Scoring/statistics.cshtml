@@ -18,6 +18,22 @@
             <div class="card-body">
                 <canvas id="decisionChart" height="250"></canvas>
             </div>
+            <div class="card-footer bg-white">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h4 class="mb-0 text-success">@ViewBag.Acceptées</h4>
+                        <small class="text-muted">Acceptées</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="mb-0 text-warning">@ViewBag.AvecRestriction</h4>
+                        <small class="text-muted">Avec restriction</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="mb-0 text-danger">@ViewBag.Refusées</h4>
+                        <small class="text-muted">Refusées</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-6">
@@ -27,6 +43,18 @@
             </div>
             <div class="card-body">
                 <canvas id="evolutionChart" height="250"></canvas>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h4 class="mb-0">@ViewBag.TauxAcceptation%</h4>
+                        <small class="text-muted">Taux d'acceptation</small>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="mb-0">@ViewBag.DernièreAnalyse</h4>
+                        <small class="text-muted">Dernière analyse</small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -50,18 +78,19 @@
             }).format(date);
         }
 
-        // Graphique 1 : Décisions (Accepté/Refusé)
+        // Graphique 1 : Décisions
         const acceptedCount = scores.filter(s => s.Decision === "Accepté").length;
         const refusedCount = scores.filter(s => s.Decision === "Refusé").length;
+        const withRestrictionCount = scores.filter(s => s.Decision === "Accepté avec restriction").length;
 
         const decisionCtx = document.getElementById('decisionChart').getContext('2d');
         new Chart(decisionCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Accepté', 'Refusé'],
+                labels: ['Accepté', 'Refusé', 'Accepté avec restriction'],
                 datasets: [{
-                    data: [acceptedCount, refusedCount],
-                    backgroundColor: ['#28a745', '#dc3545'],
+                    data: [acceptedCount, refusedCount, withRestrictionCount],
+                    backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
                     borderWidth: 1
                 }]
             },
@@ -75,7 +104,7 @@
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                const total = acceptedCount + refusedCount;
+                                const total = acceptedCount + refusedCount + withRestrictionCount;
                                 const percentage = Math.round((context.raw / total) * 100);
                                 return `${context.label}: ${context.raw} (${percentage}%)`;
                             }
@@ -87,8 +116,9 @@
 
         // Graphique 2 : Évolution des scores moyens
         const grouped = scores.reduce((acc, s) => {
-            acc[s.Date] = acc[s.Date] || [];
-            acc[s.Date].push(s.Valeur);
+            const dateKey = s.Date.split('T')[0]; // Normalise la date sans l'heure
+            acc[dateKey] = acc[dateKey] || [];
+            acc[dateKey].push(s.Valeur);
             return acc;
         }, {});
 
@@ -125,14 +155,19 @@
                     y: {
                         beginAtZero: false,
                         suggestedMin: Math.min(...avgScores) - 5,
-                        suggestedMax: Math.max(...avgScores) + 5
+                        suggestedMax: Math.max(...avgScores) + 5,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(0);
+                            }
+                        }
                     }
                 },
                 plugins: {
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return `Score: ${context.raw}`;
+                                return `Score moyen: ${context.raw}`;
                             }
                         }
                     }

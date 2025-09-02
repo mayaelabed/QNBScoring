@@ -46,5 +46,10 @@ namespace QNBScoring.Infrastructure.Repositories
                 .Where(t => t.AccountNo == accountNo)
                 .ToListAsync();
         }
+        public async Task UpdateAsync(Client client)
+        {
+            _context.Clients.Update(client);
+            await _context.SaveChangesAsync();
+        }
     }
 }

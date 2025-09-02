@@ -1,0 +1,45 @@
+﻿@model IEnumerable<QNBScoring.Core.Entities.Activities>
+
+@{
+    ViewData["Title"] = "Historique des activités";
+}
+
+<h2 class="mb-4">Historique des activités</h2>
+
+@if (Model.Any())
+{
+    <div class="list-group">
+        @foreach (var activity in Model)
+        {
+            var icon = activity.Status switch
+            {
+                "success" => "bi-check-circle",
+                "danger" => "bi-x-circle",
+                _ => "bi-info-circle"
+            };
+
+            var statusClass = activity.Status switch
+            {
+                "success" => "text-success",
+                "danger" => "text-danger",
+                _ => "text-info"
+            };
+
+            <div class="list-group-item border-bottom py-3">
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        <i class="bi @icon fs-4 @statusClass"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1">@activity.Action</h6>
+                        <small class="text-muted">@activity.Utilisateur • @activity.Date.ToString("f")</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted">Aucune activité enregistrée.</p>
+}

@@ -22,7 +22,7 @@ namespace QNBScoring.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("QNBScoring.Core.Entities.Activite", b =>
+            modelBuilder.Entity("QNBScoring.Core.Entities.Activities", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,6 +78,9 @@ namespace QNBScoring.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastTransactionImport")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nom")
                         .IsRequired()
@@ -183,6 +186,9 @@ namespace QNBScoring.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Decision")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -199,55 +205,6 @@ namespace QNBScoring.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Scores");
-                });
-
-            modelBuilder.Entity("QNBScoring.Core.Entities.UtilisateurApp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NomUtilisateur")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UtilisateursApp");
-                });
-
-            modelBuilder.Entity("SessionUtilisateur", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateConnexion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MotDePasse")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NomUtilisateur")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SessionsUtilisateurs");
                 });
 
             modelBuilder.Entity("TransactionBancaire", b =>

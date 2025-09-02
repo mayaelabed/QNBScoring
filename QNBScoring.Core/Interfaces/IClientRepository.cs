@@ -9,6 +9,7 @@ namespace QNBScoring.Core.Interfaces
         Task<IEnumerable<Client>> GetAllAsync();
         Task AddAsync(Client client);
         Task<Client> GetClientByAccountNo(string accountNo);
+        Task UpdateAsync(Client client);
 
     }
 }

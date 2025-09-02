@@ -12,6 +12,7 @@ namespace QNBScoring.Core.Entities
         public double Valeur { get; set; }
         public string Decision { get; set; } = string.Empty;
         public string Commentaire { get; set; } = string.Empty;
+         public DateTime DateCreation {  get; set; }
 
         //public int ClientId { get; set; }
         //public Client Client { get; set; } = null!;

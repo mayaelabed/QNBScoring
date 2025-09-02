@@ -16,9 +16,8 @@ namespace QNBScoring.Infrastructure.Data
         //public DbSet<DemandeChequier> Demandes => Set<DemandeChequier>();
         public DbSet<TransactionBancaire> Transactions => Set<TransactionBancaire>();
         public DbSet<Score> Scores => Set<Score>();
-        public DbSet<SessionUtilisateur> SessionsUtilisateurs => Set<SessionUtilisateur>();
-        public DbSet<UtilisateurApp> UtilisateursApp { get; set; } = null!;
-        public DbSet<Activite> Activites { get; set; } = null!;
+       
+        public DbSet<Activities> Activites { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

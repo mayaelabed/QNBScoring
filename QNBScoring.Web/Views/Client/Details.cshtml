@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model QNBScoring.Core.Entities.Client
+@{
+    ViewData["Title"] = "Liste de détaille client";
+}
+<h2>Détails du Client</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Informations Personnelles</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Nom:</dt>
+                    <dd class="col-sm-8">@Model.Nom</dd>
+
+                    <dt class="col-sm-4">Numéro de Compte:</dt>
+                    <dd class="col-sm-8">@Model.AccountNo</dd>
+
+                    <dt class="col-sm-4">Profession:</dt>
+                    <dd class="col-sm-8">@Model.Profession</dd>
+
+                    <dt class="col-sm-4">Dernier Import:</dt>
+                    <dd class="col-sm-8">@Model.LastTransactionImport?.ToString("dd/MM/yyyy HH:mm")</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Statistiques des Transactions</h4>
+            </div>
+            <div class="card-body">
+                <p>Nombre total de transactions: @(Model.Transactions?.Count ?? 0)</p>
+                <!-- Add more statistics as needed -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-4">Transactions Récentes</h3>
+@if (Model.Transactions?.Any() == true)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Montant</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model.Transactions.OrderByDescending(t => t.TranDate).Take(10))
+            {
+                <tr>
+                    <td>@transaction.TranDate.ToString("dd/MM/yyyy")</td>
+                    <td>@transaction.TranType</td>
+                    <td>@transaction.TranAmount.ToString("C")</td>
+                    <td>@transaction.TranDescEng</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucune transaction trouvée.</p>
+}
+
+<a href="@Url.Action("Index")" class="btn btn-secondary">Retour à la liste</a>

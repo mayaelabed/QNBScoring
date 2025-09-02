@@ -19,6 +19,7 @@ namespace QNBScoring.Core.Entities
         public bool ADesIncidents { get; set; }
         public string AccountNo { get; set; } = string.Empty;
         public int Telephone { get; set; }
+        public DateTime? LastTransactionImport { get; set; }
 
 
         public ICollection<DemandeChequier> Demandes { get; set; } = [];

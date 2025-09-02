@@ -30,10 +30,10 @@ namespace QNBScoring.Infrastructure.Services
 
             if (transactions.Any())
             {
-                // Critères de scoring pour les chèques (adaptés du VBA)
+                // Critères de scoring pour les chèques
                 var cheques = transactions.Where(t =>
-                    t.TranType == "D" && // Débit
-                    !t.Description.Contains("COM") && // Pas de commission
+                    t.TranType == "D" &&
+                    !t.Description.Contains("COM") &&
                     (t.OperationType == "INWARD CLEARING" ||
                      t.OperationType == "Q.N.B.TRANSFER CHQ" ||
                      t.OperationType == "CERTIFIED CHEQUES" ||
@@ -44,28 +44,31 @@ namespace QNBScoring.Infrastructure.Services
                 {
                     // a. Nombre de chèques (15 points max)
                     var nbCheques = cheques.Count;
-                    if (nbCheques < 5) score += 5;
-                    else if (nbCheques < 10) score += 10;
-                    else score += 15;
+                    score += nbCheques switch
+                    {
+                        < 5 => 5,
+                        < 10 => 10,
+                        _ => 15
+                    };
 
                     // b. Montant moyen des chèques (15 points max)
                     var montantMoyen = cheques.Average(c => Math.Abs(c.TranAmount));
-                    if (montantMoyen < 500) score += 15;
-                    else if (montantMoyen < 1000) score += 10;
-                    else score += 5;
+                    score += montantMoyen switch
+                    {
+                        < 500 => 15,
+                        < 1000 => 10,
+                        _ => 5
+                    };
 
                     // c. Fréquence mensuelle (10 points max)
                     var nbMoisAvecCheques = cheques.Select(c => new { c.TranDate.Year, c.TranDate.Month }).Distinct().Count();
                     var frequence = (double)nbCheques / nbMoisAvecCheques;
-                    if (frequence < 2) score += 10;
-                    else if (frequence < 5) score += 5;
-
-                    var ecartType = CalculateStandardDeviation(cheques.Select(c => Math.Abs(c.TranAmount)));
-
-                    /*// d. Écart-type des montants (10 points max)
-                    var ecartType = CalculateStandardDeviation(cheques.Select(c => Math.Abs(c.TranAmount)));
-                    if (ecartType < 200) score += 10;
-                    else if (ecartType < 500) score += 5;*/
+                    score += frequence switch
+                    {
+                        < 2 => 10,
+                        < 5 => 5,
+                        _ => 0
+                    };
                 }
 
                 // 3. Autres critères financiers (10 points max)
@@ -75,21 +78,24 @@ namespace QNBScoring.Infrastructure.Services
             }
 
             // 4. Critères spécifiques au chéquier demandé (10 points max)
-            if (demande.TypeChequier == "Standard") score += 5;
+            if (demande.TypeChequier == "Retail") score += 5;
             if (demande.NombreChequiers == 1) score += 5;
 
-            string decision = score >= 70 ? "Accepté" : score >= 50 ? "Accepté avec restrictions faut consulter IT risque " : "Refusé";
-
-            string commentaire = score >= 70 ? "Profil a été accepter suivant les critéres mis par la banque" :
-                                score >= 50 ? "Profil moyen - chéquier limité recommandé" :
-                                "Profil à risque - demande refusée";
+            // Décision finale unique et cohérente
+            var (decision, commentaire) = score switch
+            {
+                >= 70 => ("Accepté", "Profil a été accepté suivant les critères de la banque"),
+                >= 50 => ("Accepté avec restriction", "Profil moyen - chéquier limité recommandé"),
+                _ => ("Refusé", "Profil à risque - demande refusée")
+            };
 
             return new Score
             {
                 Valeur = score,
                 Decision = decision,
                 Commentaire = commentaire,
-                DemandeChequierId = demande.Id
+                DemandeChequierId = demande.Id,
+                DateCreation = DateTime.Now // Ajout recommandé
             };
         }
 
