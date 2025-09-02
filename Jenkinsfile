@@ -10,7 +10,7 @@ pipeline {
       steps { checkout scm }
     }
 
-    stage('Build & Test (.NET 6)') {
+    stage('Build & Test (.NET 9)') {
       steps {
         sh '''
           docker run --rm \
@@ -22,7 +22,7 @@ pipeline {
             -e DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
             -e DOTNET_NOLOGO=1 \
             -w /var/jenkins_home/workspace/Qnb-CI-Pipeline \
-            mcr.microsoft.com/dotnet/sdk:6.0 \
+            mcr.microsoft.com/dotnet/sdk:9.0 \
             bash -lc '
               mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES"
               dotnet --info
@@ -47,10 +47,10 @@ pipeline {
                 -e NUGET_PACKAGES=/var/jenkins_home/workspace/Qnb-CI-Pipeline/.nuget/packages \
                 -e DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
                 -e DOTNET_NOLOGO=1 \
-                -e SONAR_HOST_URL="$SONAR_HOST_URL" \
+                -e SONAR_HOST_URL="http://host.docker.internal:9000" \
                 -e SONAR_TOKEN="$SONAR_TOKEN" \
                 -w /var/jenkins_home/workspace/Qnb-CI-Pipeline \
-                mcr.microsoft.com/dotnet/sdk:6.0 \
+                mcr.microsoft.com/dotnet/sdk:9.0 \
                 bash -lc '
                   mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES"
                   export PATH="$PATH:$HOME/.dotnet/tools"
