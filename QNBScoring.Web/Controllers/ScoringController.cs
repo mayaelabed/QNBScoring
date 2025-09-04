@@ -16,21 +16,21 @@ namespace QNBScoring.Web.Controllers
         private readonly IScoringService _scoringService;
         private readonly PdfService _pdfService;
         private readonly QNBScoringDbContext _context;
-        private readonly IEmailService _emailService;
+       // private readonly IEmailService _emailService;
 
         public ScoringController(
             IDemandeChequierRepository demandeRepo,
             IScoreRepository scoreRepo,
             IScoringService scoringService,
-            PdfService pdfService,
-            QNBScoringDbContext context, IEmailService emailService)
+            PdfService pdfService,QNBScoringDbContext context//, IEmailService emailService
+                                 )
         {
             _demandeRepo = demandeRepo;
             _scoreRepo = scoreRepo;
             _scoringService = scoringService;
             _pdfService = pdfService;
             _context = context;
-            _emailService = emailService;
+           // _emailService = emailService;
 
         }
 
@@ -128,7 +128,7 @@ namespace QNBScoring.Web.Controllers
             return View(scores);
         }
         */
-        [HttpPost]
+        /*[HttpPost]
         public async Task<IActionResult> EnvoyerMail(int scoreId)
         {
             var score = await _context.Scores
@@ -153,7 +153,7 @@ namespace QNBScoring.Web.Controllers
 
             TempData["Success"] = $"Email envoyé à l’agent {score.Demande.Client.Nom}.";
             return RedirectToAction("Historique");
-        }
+        }*/
         [HttpPost]
         public async Task<IActionResult> Supprimer(int scoreId)
         {

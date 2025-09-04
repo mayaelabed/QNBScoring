@@ -1,12 +1,5 @@
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\.msCoverageSourceRootsMapping_QNBScoring.IntegrationTests
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\CoverletSourceRootsMapping_QNBScoring.IntegrationTests
-D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.csproj.AssemblyReference.cache
-D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\MvcTestingAppManifest.json
-D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.GeneratedMSBuildEditorConfig.editorconfig
-D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.AssemblyInfoInputs.cache
-D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.AssemblyInfo.cs
-D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.csproj.CoreCompileInputs.cache
-D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.sourcelink.json
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\testhost.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\QNBScoring.Web.deps.json
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\QNBScoring.Web.runtimeconfig.json
@@ -326,6 +319,7 @@ D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\EPPlus.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\EPPlus.Interfaces.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\ExcelNumberFormat.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\FluentAssertions.dll
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\Mailjet.Client.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\MailKit.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.Negotiate.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\Microsoft.AspNetCore.Connections.Abstractions.dll
@@ -531,6 +525,13 @@ D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\QNBScoring.Web.dl
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\QNBScoring.Core.pdb
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\QNBScoring.Infrastructure.pdb
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\bin\Debug\net9.0\QNBScoring.Web.pdb
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.csproj.AssemblyReference.cache
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\MvcTestingAppManifest.json
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.GeneratedMSBuildEditorConfig.editorconfig
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.AssemblyInfoInputs.cache
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.AssemblyInfo.cs
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.csproj.CoreCompileInputs.cache
+D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.sourcelink.json
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScori.D9BAE369.Up2Date
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\QNBScoring.IntegrationTests.dll
 D:\QNB\QNBScoring\QNBScoring.IntegrationTests\obj\Debug\net9.0\refint\QNBScoring.IntegrationTests.dll

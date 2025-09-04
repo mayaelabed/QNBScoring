@@ -1,6 +1,13 @@
 pipeline {
   agent any
-  environment { DOCKER_BUILDKIT = '1' }
+
+  triggers { pollSCM('H/2 * * * *') }  // auto-build on pushes (or near real-time)
+
+  environment {
+    DOCKER_BUILDKIT = '1'
+    NUGET_DIR = '/var/jenkins_home/.nuget/packages'
+  }
+
   options { timestamps() }
 
   stages {
@@ -8,18 +15,27 @@ pipeline {
       steps { checkout scm }
     }
 
-    stage('Build & Test (.NET 6)') {
+    stage('Build & Test (.NET 9)') {
       steps {
         sh '''
           docker run --rm \
-            -u $(id -u):$(id -g) \
-            -v "$PWD":/workspace -w /workspace \
-            mcr.microsoft.com/dotnet/sdk:6.0 \
+            --volumes-from jenkins_server \
+            -u 1000:0 \
+            -e HOME="$WORKSPACE" \
+            -e DOTNET_CLI_HOME="$WORKSPACE" \
+            -e NUGET_PACKAGES="$NUGET_DIR" \
+            -e DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
+            -e DOTNET_NOLOGO=1 \
+            -w "$WORKSPACE" \
+            mcr.microsoft.com/dotnet/sdk:9.0 \
             bash -lc '
+              set -euo pipefail
+              mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES"
               dotnet --info
-              dotnet restore QNBScoring.sln
-              dotnet build QNBScoring.sln -c Release --no-restore
-              dotnet test QNBScoring.UnitTests/QNBScoring.UnitTests.csproj -c Release --no-build
+              dotnet nuget locals all --clear
+              dotnet restore QNBScoring.sln --force-evaluate --no-cache --disable-parallel
+              dotnet build   QNBScoring.sln -c Release --no-restore
+              dotnet test    QNBScoring.UnitTests/QNBScoring.UnitTests.csproj -c Release --no-build
             '
         '''
       }
@@ -31,16 +47,26 @@ pipeline {
           withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {
             sh '''
               docker run --rm \
-                -u $(id -u):$(id -g) \
-                -e SONAR_HOST_URL="$SONAR_HOST_URL" \
+                --volumes-from jenkins_server \
+                -u 1000:0 \
+                -e HOME="$WORKSPACE" \
+                -e DOTNET_CLI_HOME="$WORKSPACE" \
+                -e NUGET_PACKAGES="$NUGET_DIR" \
+                -e DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
+                -e DOTNET_NOLOGO=1 \
+                -e SONAR_HOST_URL="http://host.docker.internal:9000" \
                 -e SONAR_TOKEN="$SONAR_TOKEN" \
-                -v "$PWD":/workspace -w /workspace \
-                mcr.microsoft.com/dotnet/sdk:6.0 \
+                -w "$WORKSPACE" \
+                mcr.microsoft.com/dotnet/sdk:9.0 \
                 bash -lc '
+                  set -euo pipefail
+                  mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES"
+                  export PATH="$PATH:$HOME/.dotnet/tools"
                   dotnet tool update --global dotnet-sonarscanner || dotnet tool install --global dotnet-sonarscanner
-                  export PATH="$PATH:/root/.dotnet/tools"
+                  dotnet nuget locals all --clear
                   dotnet sonarscanner begin /k:"QNBScoring-Web-App" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.login="$SONAR_TOKEN"
-                  dotnet build QNBScoring.sln -c Release
+                  dotnet restore QNBScoring.sln --force-evaluate --no-cache --disable-parallel
+                  dotnet build   QNBScoring.sln -c Release --no-restore
                   dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
                 '
             '''

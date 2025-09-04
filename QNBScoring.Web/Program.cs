@@ -10,7 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using QNBScoring.Core.Configurations;
+// using QNBScoring.Core.Configurations;   // ?? EMAIL: contient EmailSettings (désactivé)
+// using QNBScoring.Infrastructure.Services; // ?? EMAIL: contient EmailService (désactivé)
 using QNBScoring.Core.Interfaces;
 using QNBScoring.Core.Security;
 using QNBScoring.Infrastructure.Data;
@@ -37,11 +38,6 @@ builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
     });
 
 // 2) Policies
-/*builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("FinanceOU", policy =>
-        policy.Requirements.Add(new OuRequirement("Finance")));
-});*/
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("FinanceOU", policy =>
@@ -58,13 +54,13 @@ builder.Services.AddAuthorization(options =>
         }));
 });
 
-
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ConfigureHttpsDefaults(httpsOptions =>
     {
         httpsOptions.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
     });
+
     options.ConfigureEndpointDefaults(listenOptions =>
     {
         listenOptions.Protocols = HttpProtocols.Http1;
@@ -98,17 +94,7 @@ else
 {
     builder.Services.AddScoped<IAdService, AdService>();
 }
-// REMPLACER la condition pour TESTER
-// if (builder.Environment.IsDevelopment())
-/*if (true) // ? Forcer le vrai AD pour test
-{
-    builder.Services.AddScoped<IAdService, AdService>();
-}
-else
-{
-    builder.Services.AddScoped<IAdService, MockAdService>();
-}
-*/
+
 // Configuration CORS pour le développement
 builder.Services.AddCors(options =>
 {
@@ -142,14 +128,12 @@ builder.Services.AddScoped<ExcelImportService>();
 builder.Services.AddScoped<PdfDemandeService>();
 builder.Services.AddScoped<PdfService>();
 builder.Services.AddScoped<IAuthorizationHandler, OuRequirementHandler>();
-builder.Services.AddScoped<IEmailService, EmailService>();
 
-// Charger EmailSettings depuis appsettings.json
-builder.Services.Configure<EmailSettings>(
-    builder.Configuration.GetSection("EmailSettings"));
-
-// Injection du service d’email
-builder.Services.AddScoped<IEmailService, EmailService>();
+// ?? EMAIL: injection et configuration désactivées
+// builder.Services.AddScoped<IEmailService, EmailService>();
+// builder.Services.Configure<EmailSettings>(
+//     builder.Configuration.GetSection("EmailSettings"));
+// builder.Services.AddScoped<IEmailService, EmailService>();
 
 System.Net.ServicePointManager.ServerCertificateValidationCallback +=
     (sender, cert, chain, errors) => true;
@@ -167,6 +151,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+
 QuestPDF.Settings.License = LicenseType.Community;
 
 // Configure the HTTP request pipeline.
