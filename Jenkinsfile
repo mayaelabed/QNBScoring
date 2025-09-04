@@ -1,10 +1,13 @@
 pipeline {
   agent any
+
+  triggers { pollSCM('H/2 * * * *') }  // auto-build on pushes (or near real-time)
+
   environment {
     DOCKER_BUILDKIT = '1'
     NUGET_DIR = '/var/jenkins_home/.nuget/packages'
-    WORKDIR   = '/var/jenkins_home/workspace/Qnb-CI-Pipeline'
   }
+
   options { timestamps() }
 
   stages {
@@ -18,12 +21,12 @@ pipeline {
           docker run --rm \
             --volumes-from jenkins_server \
             -u 1000:0 \
-            -e HOME="$WORKDIR" \
-            -e DOTNET_CLI_HOME="$WORKDIR" \
+            -e HOME="$WORKSPACE" \
+            -e DOTNET_CLI_HOME="$WORKSPACE" \
             -e NUGET_PACKAGES="$NUGET_DIR" \
             -e DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
             -e DOTNET_NOLOGO=1 \
-            -w "$WORKDIR" \
+            -w "$WORKSPACE" \
             mcr.microsoft.com/dotnet/sdk:9.0 \
             bash -lc '
               set -euo pipefail
@@ -46,14 +49,14 @@ pipeline {
               docker run --rm \
                 --volumes-from jenkins_server \
                 -u 1000:0 \
-                -e HOME="$WORKDIR" \
-                -e DOTNET_CLI_HOME="$WORKDIR" \
+                -e HOME="$WORKSPACE" \
+                -e DOTNET_CLI_HOME="$WORKSPACE" \
                 -e NUGET_PACKAGES="$NUGET_DIR" \
                 -e DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
                 -e DOTNET_NOLOGO=1 \
                 -e SONAR_HOST_URL="http://host.docker.internal:9000" \
                 -e SONAR_TOKEN="$SONAR_TOKEN" \
-                -w "$WORKDIR" \
+                -w "$WORKSPACE" \
                 mcr.microsoft.com/dotnet/sdk:9.0 \
                 bash -lc '
                   set -euo pipefail
