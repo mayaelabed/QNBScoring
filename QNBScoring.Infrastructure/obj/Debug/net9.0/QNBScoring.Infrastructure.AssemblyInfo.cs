@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QNBScoring.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+942aef98ee65c353293049062cba33666cbfaf83")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+947c5b71a87361c1f39552a52a46c23fd6244f5b")]
 [assembly: System.Reflection.AssemblyProductAttribute("QNBScoring.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QNBScoring.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
