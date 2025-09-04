@@ -321,3 +321,4 @@ D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\refint\QNBScoring.Web.dll
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.pdb
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\QNBScoring.Web.genruntimeconfig.cache
 D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\ref\QNBScoring.Web.dll
+D:\QNB\QNBScoring\QNBScoring.Web\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

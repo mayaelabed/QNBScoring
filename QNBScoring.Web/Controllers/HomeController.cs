@@ -1,4 +1,4 @@
-using DocumentFormat.OpenXml.InkML;
+Ôªøusing DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +33,7 @@ namespace QNBScoring.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // RÈcupÈrer infos utilisateur
+            // R√©cup√©rer infos utilisateur
             var identity = HttpContext.User.Identity as WindowsIdentity;
             var username = identity?.Name ?? "Unknown";
             var sam = username.Contains("\\") ? username.Split('\\').Last() : username;
@@ -49,11 +49,11 @@ namespace QNBScoring.Web.Controllers
                 return await ShowIndex(sam);
             }
 
-            // Par dÈfaut pour les autres utilisateurs
+            // Par d√©faut pour les autres utilisateurs
             return await ShowIndex(sam);
         }
 
-        // ?? M…THODE PRIV…E POUR AFFICHER L'INDEX
+        // ?? M√âTHODE PRIV√âE POUR AFFICHER L'INDEX
         private async Task<IActionResult> ShowIndex(string samAccountName)
         {
             var ous = _adService.GetUserOrganizationalUnits(samAccountName);
@@ -62,15 +62,15 @@ namespace QNBScoring.Web.Controllers
             var total = await _context.Demandes.CountAsync();
             var approuvees = await _context.Demandes
                 .Include(d => d.Score)
-                .CountAsync(d => d.Score != null && d.Score.Decision == "AcceptÈ");
+                .CountAsync(d => d.Score != null && d.Score.Decision == "Accept√©");
 
             var rejetees = await _context.Demandes
                 .Include(d => d.Score)
-                .CountAsync(d => d.Score != null && d.Score.Decision == "RefusÈ");
+                .CountAsync(d => d.Score != null && d.Score.Decision == "Refus√©");
 
             var avecRestriction = await _context.Demandes
                 .Include(d => d.Score)
-                .CountAsync(d => d.Score != null && d.Score.Decision == "AcceptÈ avec restriction");
+                .CountAsync(d => d.Score != null && d.Score.Decision == "Accept√© avec restriction");
 
             var activitesBrutes = await _context.Activites
                 .OrderByDescending(a => a.Date)
@@ -103,7 +103,7 @@ namespace QNBScoring.Web.Controllers
         //[RoleAuthorize("Responsables", "Home/Dashboard")]
         public IActionResult Dashboard()
         {
-            // VÈrifier que c'est bien maya qui accËde
+            // V√©rifier que c'est bien maya qui acc√®de
             var identity = HttpContext.User.Identity as WindowsIdentity;
             var username = identity?.Name ?? "Unknown";
             var sam = username.Contains("\\") ? username.Split('\\').Last() : username;
@@ -120,22 +120,22 @@ namespace QNBScoring.Web.Controllers
                 .ToList();
 
             var total = demandes.Count;
-            var scorÈes = demandes.Count(d => d.Score != null);
-            var acceptÈes = demandes.Count(d => d.Score?.Decision == "AcceptÈ");
-            var avecRestriction = demandes.Count(d => d.Score?.Decision == "AcceptÈ avec restriction");
-            var tauxAcceptation = scorÈes > 0
-                   ? (int)Math.Round((double)(acceptÈes + avecRestriction) / scorÈes * 100)
+            var scor√©es = demandes.Count(d => d.Score != null);
+            var accept√©es = demandes.Count(d => d.Score?.Decision == "Accept√©");
+            var avecRestriction = demandes.Count(d => d.Score?.Decision == "Accept√© avec restriction");
+            var tauxAcceptation = scor√©es > 0
+                   ? (int)Math.Round((double)(accept√©es + avecRestriction) / scor√©es * 100)
                    : 0;
-            var derniËreAnalyse = demandes.OrderByDescending(d => d.DateDemande).FirstOrDefault()?.DateDemande.ToString("dd/MM");
+            var derni√®reAnalyse = demandes.OrderByDescending(d => d.DateDemande).FirstOrDefault()?.DateDemande.ToString("dd/MM");
 
             ViewBag.TotalDemandes = total;
-            ViewBag.DemandesScorÈes = scorÈes;
+            ViewBag.DemandesScor√©es = scor√©es;
             ViewBag.TauxAcceptation = tauxAcceptation;
-            ViewBag.DerniËreAnalyse = derniËreAnalyse;
-            ViewBag.AcceptÈes = acceptÈes;
+            ViewBag.Derni√®reAnalyse = derni√®reAnalyse;
+            ViewBag.Accept√©es = accept√©es;
             ViewBag.AvecRestriction = avecRestriction;
-            ViewBag.RefusÈes = demandes.Count(d => d.Score?.Decision == "RefusÈ");
-            ViewBag.NonScorÈes = total - scorÈes;
+            ViewBag.Refus√©es = demandes.Count(d => d.Score?.Decision == "Refus√©");
+            ViewBag.NonScor√©es = total - scor√©es;
 
             // ?? AJOUTER LE USERNAME POUR AFFICHAGE
             ViewBag.Username = sam;
@@ -147,7 +147,7 @@ namespace QNBScoring.Web.Controllers
         {
             var span = DateTime.Now - date;
 
-            if (span.TotalMinutes < 1) return "¿ l'instant";
+            if (span.TotalMinutes < 1) return "√Ä l'instant";
             if (span.TotalMinutes < 60) return $"Il y a {Math.Floor(span.TotalMinutes)} min";
             if (span.TotalHours < 24) return $"Il y a {Math.Floor(span.TotalHours)} heure(s)";
             return $"Il y a {Math.Floor(span.TotalDays)} jour(s)";
