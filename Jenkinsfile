@@ -18,69 +18,68 @@ pipeline {
     stage('Build & Test (.NET 9)') {
       steps {
         sh '''
-          docker run --rm \
-            --volumes-from jenkins_server \
-            -u 1000:0 \
-            -e HOME="$WORKSPACE" \
-            -e DOTNET_CLI_HOME="$WORKSPACE" \
-            -e NUGET_PACKAGES="$NUGET_DIR" \
-            -e DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
-            -e DOTNET_NOLOGO=1 \
-            -w "$WORKSPACE" \
-            mcr.microsoft.com/dotnet/sdk:9.0 \
-            bash -lc '
-              set -euo pipefail
-              mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES"
-              dotnet --info
-              dotnet nuget locals all --clear
-              dotnet restore QNBScoring.sln --force-evaluate --no-cache --disable-parallel
-              dotnet build   QNBScoring.sln -c Release --no-restore
-              dotnet test    QNBScoring.UnitTests/QNBScoring.UnitTests.csproj -c Release --no-build
-            '
+          set -euo pipefail
+
+          # Job-scoped caches (no cross-job races)
+          export HOME="$WORKSPACE"
+          export DOTNET_CLI_HOME="$WORKSPACE"
+          export NUGET_PACKAGES="$WORKSPACE/.nuget/packages"
+          export NUGET_HTTP_CACHE_PATH="$WORKSPACE/.nuget/http-cache"
+          export NUGET_PLUGINS_CACHE_PATH="$WORKSPACE/.nuget/plugin-cache"
+
+          mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES" "$NUGET_HTTP_CACHE_PATH" "$NUGET_PLUGINS_CACHE_PATH"
+
+          # Clean only transient caches; DO NOT wipe global packages
+          dotnet nuget locals http-cache,temp --clear
+
+          # Restore with cache enabled (faster & more reliable); parallel is fine now that caches are isolated
+          dotnet restore QNBScoring.sln
+
+          # Build & test
+          if ! dotnet build QNBScoring.sln -c Release --no-restore; then
+            echo "Build couldn't find some packages; re-restoring and retrying..."
+            dotnet restore QNBScoring.sln
+            dotnet build QNBScoring.sln -c Release --no-restore
+          fi
+
+          dotnet test QNBScoring.UnitTests/QNBScoring.UnitTests.csproj -c Release --no-build
         '''
       }
     }
 
+
     stage('SonarQube Analysis') {
-      when { expression { return currentBuild.resultIsBetterOrEqualTo('SUCCESS') } }
       steps {
         withSonarQubeEnv('SonarQube Server') {
-          sh '''
-            set -euo pipefail
+          withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+            sh '''
+              set -euo pipefail
 
-            # Isolate caches for this stage to avoid corrupted global state
-            export HOME="$WORKSPACE"
-            export DOTNET_CLI_HOME="$WORKSPACE"
-            export NUGET_PACKAGES="$WORKSPACE/.nuget/sonar_packages"
+              export HOME="$WORKSPACE"
+              export DOTNET_CLI_HOME="$WORKSPACE"
+              export NUGET_PACKAGES="$WORKSPACE/.nuget/sonar-packages"
+              export NUGET_HTTP_CACHE_PATH="$WORKSPACE/.nuget/sonar-http-cache"
+              export NUGET_PLUGINS_CACHE_PATH="$WORKSPACE/.nuget/sonar-plugin-cache"
 
-            rm -rf "$NUGET_PACKAGES"
-            mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES"
-            export PATH="$PATH:$HOME/.dotnet/tools"
+              rm -rf "$NUGET_PACKAGES" "$NUGET_HTTP_CACHE_PATH" "$NUGET_PLUGINS_CACHE_PATH"
+              mkdir -p "$HOME/.dotnet/tools" "$NUGET_PACKAGES" "$NUGET_HTTP_CACHE_PATH" "$NUGET_PLUGINS_CACHE_PATH"
+              export PATH="$PATH:$HOME/.dotnet/tools"
 
-            # Ensure scanner is available
-            dotnet tool update --global dotnet-sonarscanner || dotnet tool install --global dotnet-sonarscanner
+              dotnet tool update --global dotnet-sonarscanner || dotnet tool install --global dotnet-sonarscanner
+              dotnet nuget locals http-cache,temp --clear
 
-            # Clear any other NuGet caches
-            dotnet nuget locals all --clear
+              dotnet sonarscanner begin /k:"QNBScoring-Web-App" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.login="$SONAR_TOKEN"
 
-            # Begin analysis
-            dotnet sonarscanner begin /k:"QNBScoring-Web-App" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.login="$SONAR_TOKEN"
+              dotnet restore QNBScoring.sln
+              dotnet build QNBScoring.sln -c Release --no-restore
 
-            # Robust restore (retry once if it flakes)
-            if ! dotnet restore QNBScoring.sln --force-evaluate --no-cache --disable-parallel; then
-              echo "Restore failed once; purging packages and retrying..."
-              rm -rf "$NUGET_PACKAGES"
-              dotnet restore QNBScoring.sln --force-evaluate --no-cache --disable-parallel
-            fi
-
-            dotnet build QNBScoring.sln -c Release --no-restore
-
-            # End analysis (creates report-task.txt)
-            dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
-          '''
+              dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+            '''
+          }
         }
       }
     }
+
 
 
     stage('Build Web App Docker Image') {
